@@ -1,0 +1,3 @@
+Daemon thread tutorial
+To do: Add some exercises like the ones in Variables
+

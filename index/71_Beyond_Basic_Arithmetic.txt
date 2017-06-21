@@ -1,0 +1,21 @@
+The Java programming language supports basic arithmetic with its arithmetic operators: +, -, *, /, and %. The Math class in the java.lang package provides methods and constants for doing more advanced mathematical computation.
+The methods in the Math class are all static, so you call them directly from the class, like this:
+This allows you to invoke the Math class methods by their simple names. For example:
+The Math class includes two constants:
+The Math class also includes more than 40 static methods. The following table lists a number of the basic methods.
+The following program, BasicMathDemo , illustrates how to use some of these methods:
+Here's the output from this program:
+The next table lists exponential and logarithmic methods of the Math class.
+The following program, ExponentialDemo, displays the value of e, then calls each of the methods listed in the previous table on arbitrarily chosen numbers:
+Here's the output you'll see when you run ExponentialDemo:
+The Math class also provides a collection of trigonometric functions, which are summarized in the following table. The value passed into each of these methods is an angle expressed in radians. You can use the toRadians method to convert from degrees to radians.
+Here's a program, TrigonometricDemo, that uses each of these methods to compute various trigonometric values for a 45-degree angle:
+The output of this program is as follows:
+The random() method returns a pseudo-randomly selected number between 0.0 and 1.0. The range includes 0.0 but not 1.0. In other words: 0.0 <= Math.random() < 1.0. To get a number in a different range, you can perform arithmetic on the value returned by the random method. For example, to generate an integer between 0 and 9, you would write:
+By multiplying the value by 10, the range of possible values becomes 0.0 <= number < 10.0.
+Using Math.random works well when you need to generate a single random number. If you need to generate a series of random numbers, you should create an instance of java.util.Random and invoke methods on that object to generate numbers.
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

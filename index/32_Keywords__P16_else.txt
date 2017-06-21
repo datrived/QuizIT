@@ -1,0 +1,5 @@
+else is a Java keyword. It is an optional part of a branching statement. It starts the 'false' statement block.
+The general syntax of a if, using Extended Backus-Naur Form, is
+For example:
+See also:
+

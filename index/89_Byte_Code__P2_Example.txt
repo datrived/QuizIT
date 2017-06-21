@@ -1,0 +1,3 @@
+Consider the following Java code.
+A Java compiler might translate the Java code above into byte code as follows, assuming the above was put in a method:
+

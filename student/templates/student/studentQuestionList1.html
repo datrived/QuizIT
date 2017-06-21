@@ -1,0 +1,462 @@
+{% extends 'student/studentBasepage1.html' %}
+{% load mathfilters %}
+{% load tz %}
+{% load string_operations %}
+
+{% block css_top %}
+
+<style type="text/css">
+	.caret{
+		margin-top: 9px;
+		margin-left: 5px;
+	}
+</style>
+
+	{% endblock %}
+
+{% block javascript %}
+{% csrf_token %}
+<script type="text/javascript">
+	
+	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+	//var csrftoken = Cookies.get('csrftoken');
+
+	var isFirefox = typeof InstallTrigger !== 'undefined';
+	var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+	var isIE = /*@cc_on!@*/false || !!document.documentMode;
+	var isChrome = !!window.chrome && !!window.chrome.webstore;
+	var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+	var list_date1, list_date2;
+	var spentTime;
+	var focus = 1; //no need to check for focus if focus==1
+	var n1;
+	var scroll_date; // Last Scroll time
+	var s1 = (new Date(0)).toISOString();
+	var postExplTimestamp = (new Date(0)).toISOString();
+	var postAnswerTimestamp = (new Date(0)).toISOString();
+	
+	if(!isSafari){
+		focus = 1;
+		window.onload = (function(){
+			
+			list_date1 = new Date();
+			n1 = list_date1.toISOString();
+			return;
+			});
+		}
+	else{
+	
+		function myLoadHandler(evt){
+				focus = 1;
+				list_date1 = new Date();
+				n1 = list_date1.toISOString();
+				//window.alert("Safari...");
+				$.post("{% url 'student:saveTimestamp' %}",
+				{
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": 0,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			function()
+			{
+			});
+			return;
+				
+	}	
+	 function myUnloadHandler(evt)   //not working currently
+    {
+        
+		focus = 1;
+        //window.alert("Safari Bye...");
+		list_date2 = new Date();
+		spentTime = list_date2.getTime() - list_date1.getTime();
+		
+		$.post("{% url 'student:saveTimestamp' %}",
+				{
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			function()
+			{
+			}	);
+			return;
+	}
+	
+	
+	window.close = (function(){
+		focus = 1;
+		list_date2 = new Date();
+		spentTime = list_date2.getTime() - list_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			});
+		return;
+	}
+);
+window.onblur =  (function(){
+		focus = 0;
+		list_date2 = new Date();
+		spentTime = list_date2.getTime() - list_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;}
+); }
+ 
+window.addEventListener("pageshow", myLoadHandler, false);
+window.addEventListener("pagehide", myUnloadHandler, false);
+
+   
+if(isChrome ) {  
+	window.onbeforeunload = (function(){
+	focus = 1;
+		list_date2 = new Date();
+		spentTime = list_date2.getTime() - list_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			
+			});
+		return;
+    });
+	
+	window.close = (function(){
+		focus = 1;
+		list_date2 = new Date();
+		spentTime = list_date2.getTime() - list_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+window.onblur =  (function(){
+		focus = 0;
+		list_date2 = new Date();
+		spentTime = list_date2.getTime() - list_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+); 
+}
+else if(isFirefox || isIE || isOpera){
+	window.onunload = (function(){
+	focus = 1;
+		list_date2 = new Date();
+		spentTime = list_date2.getTime() - list_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			});
+		return;
+});
+	window.close = (function(){
+		focus = 1;
+		list_date2 = new Date();
+		spentTime = list_date2.getTime() - list_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+window.onblur =  (function(){
+		focus = 0;
+		list_date2 = new Date();
+		spentTime = list_date2.getTime() - list_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 3,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			});
+		return;
+	}
+); 
+}
+
+if(focus == 0){
+	
+	window.onfocus = (function(){
+	list_date1 = new Date();
+	focus = 1;
+});
+}   
+	
+
+</script>
+{% endblock %}
+
+{% block breadcrumb %}
+
+	<a href="#">Question History</a>
+{% endblock %}
+{% block javascipt %}
+<script type="text/javascript">
+	
+</script>
+{% endblock %}
+
+{% block content %}
+
+		<div class="row-fluid sortable" id="list_id">
+				
+				<div class="box span12">		
+
+					<div class="box-header" data-original-title>
+						<h2><i class="icon-align-justify"></i><span class="break"></span>List</h2>
+						<div class="box-icon">
+							
+						</div>
+					</div>
+					
+					<div class="box-content">
+						
+						<div id="legends" align = "right" >
+									<button class="btn btn-small btn-success" onhover="">>90%</button>&nbsp;&nbsp;
+									<button class="btn btn-small btn-warning">70%-90%</button>&nbsp;&nbsp;
+									<button class="btn btn-small btn-danger">&lt;70%</button>&nbsp;&nbsp;
+									<button class="btn btn-small btn-inverse">No Attempts</button>&nbsp;&nbsp;
+						</div>
+						<br>
+
+						<table class="table table-striped bootstrap-datatable datatable">
+						  <thead>
+							  <tr>
+								  <th width="40%">Question<span class="caret"></span></th>
+								  <th width="25%">Topic<span class="caret"></span></th>
+								  <th>Date of Quiz<span class="caret"></span></th>
+								  <th>Attempts<span class="caret"></span></th>
+								  <th>Review/Retry</th>
+							  </tr>
+						  </thead>
+						  <tbody id = "tbody">
+							{% for k , list in questionList.items %}
+							
+							
+							{% if  list.type == 2 %}
+				       			
+                                <tr>
+                                	<td>{{ list.object.question.question }}</td>
+									
+									<td>{{ list.object.question.courseTopic }}</td>
+
+                                    <td>{{ list.object.question.datetime|date:"Y-m-d" }}</td>
+                                    {% if list.object.numAttempts == 0 %}
+                                    	<td> <span class="label"> {{ list.object.numCorrectAttempts }} / {{ list.object.numAttempts }} </span> </td>
+                                    {% elif list.object.numCorrectAttempts|div:list.object.numAttempts > 0.9 %}
+                                    	<td> <span class="label label-success"> {{ list.object.numCorrectAttempts }} / {{ list.object.numAttempts }} </span> </td>
+                                    {% elif list.object.numCorrectAttempts|div:list.object.numAttempts > 0.7 %}
+                                    	<td> <span class="label label-warning"> {{ list.object.numCorrectAttempts }} / {{ list.object.numAttempts }} </span> </td>
+                                    {% else %}
+                                    	<td> <span class="label label-important"> {{ list.object.numCorrectAttempts }} / {{ list.object.numAttempts }} </span> </td>
+                                    {% endif %}
+
+                                    <td class="center">
+                                    	<a class="btn btn-success view_id" 
+                                    	href="{% url 'student:studentQuestionView1' list.object.student.id list.object.question.id 99999 1 %}">
+												<i class="halflings-icon white zoom-in"></i>
+										</a>
+											{% if list.object.numCorrectAttempts > 0 %}
+												<b>&nbsp;/&nbsp;</b>
+	                                    		<a class="btn btn-warning retry_id" 
+	                                    	href="{% url 'student:studentQuestionRetry1' list.object.student.id list.object.question.id 99999 1 %}">
+													<i class="halflings-icon white zoom-in"></i>
+												</a>
+											{% else %}
+												<b>&nbsp;/&nbsp;</b>
+	                                    		<a class="btn retry_id" 
+	                                    	href="#" title='Caption for the photo on Colorbox'>
+													<i class="halflings-icon white zoom-in"></i>
+												</a>
+											{% endif %}
+
+                                    	
+									</td>
+                                </tr>
+				
+				
+				<!--  Unattempted  -->
+				{% elif  list.type == 1 %}
+							
+                                <tr>
+
+                                	<td>{{ list.object.question }}</td>
+									
+									<td>{{ list.object.courseTopic }}</td>
+
+                                    <td>{{ list.object.datetime|date:"Y-m-d" }}</td>
+                                    
+                                    	<td> <span class="label"> 0 / 0 </span> </td>
+                                    
+
+                                    <td class="center">
+                                    	<a class="btn btn-success view_id" 
+                                    	href="{% url 'student:studentQuestionView1' list.studentId list.object.id 99999 1 %}">
+												<i class="halflings-icon white zoom-in"></i>
+										</a>
+											
+												<b>&nbsp;/&nbsp;</b>
+	                                    		<a class="btn retry_id" 
+	                                    	href="#" title='Caption for the photo on Colorbox'>
+													<i class="halflings-icon white zoom-in"></i>
+												</a>
+											
+
+                                    	
+									</td>
+                                </tr>
+				{% endif %}
+				<span> {{list.object.type}}</span>
+				
+				
+                           {% endfor %} 
+
+						  </tbody>
+					  </table>
+					</div> <!-- End: box-content -->
+
+				</div><!-- End: span-12 -->
+
+		</div><!-- End: row-fluid-sortable -->
+
+{% endblock %}
+{% block javascript_bottom %}
+
+{% endblock %}

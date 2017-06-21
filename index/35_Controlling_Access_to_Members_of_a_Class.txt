@@ -1,0 +1,16 @@
+Access level modifiers determine whether other classes can use a particular field or invoke a particular method. There are two levels of access control:
+A class may be declared with the modifier public, in which case that class is visible to all classes everywhere. If a class has no modifier (the default, also known as package-private), it is visible only within its own package (packages are named groups of related classes  you will learn about them in a later lesson.)
+At the member level, you can also use the public modifier or no modifier (package-private) just as with top-level classes, and with the same meaning. For members, there are two additional access modifiers: private and protected. The private modifier specifies that the member can only be accessed in its own class. The protected modifier specifies that the member can only be accessed within its own package (as with package-private) and, in addition, by a subclass of its class in another package.
+The following table shows the access to members permitted by each modifier.
+The first data column indicates whether the class itself has access to the member defined by the access level. As you can see, a class always has access to its own members. The second column indicates whether classes in the same package as the class (regardless of their parentage) have access to the member. The third column indicates whether subclasses of the class declared outside this package have access to the member. The fourth column indicates whether all classes have access to the member.
+Access levels affect you in two ways. First, when you use classes that come from another source, such as the classes in the Java platform, access levels determine which members of those classes your own classes can use. Second, when you write a class, you need to decide what access level every member variable and every method in your class should have.
+Let's look at a collection of classes and see how access levels affect visibility. The following figure shows the four classes in this example and how they are related.
+
+Classes and Packages of the Example Used to Illustrate Access Levels
+The following table shows where the members of the Alpha class are visible for each of the access modifiers that can be applied to them.
+If other programmers use your class, you want to ensure that errors from misuse cannot happen. Access levels can help you do this.
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

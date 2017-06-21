@@ -1,0 +1,9 @@
+Next, let's take a look at applying an adaptor to our design. Adaptors are used to add functionality to the event handling process that:
+According to the Event Model specification a typical use case for an adaptor is to add routing logic for events. But you can also add filtering or logging. In our case, let's do that: add logging of the numbers as "proof" for the calculations done in the listeners.
+An adaptor, as explained earlier, is a class that sits between the event source and the listeners. From the point of view of the event source, it masquerades as a listener (so it must implement the listener interface). From the point of view of the listeners it pretends to be the event source (so it should have add and remove methods). In other words, to write an adaptor you have to repeat some code from the event source (to manage listeners) and you have to re-implement the event notification methods to do some extra stuff and then pass the event on to the actual listeners.
+In our case we need an adaptor that writes the numbers to a log file. Keeping it simple once again, let's settle for an adaptor that:
+Also, we can make life easy on ourselves by just copying all the code we need to manage listeners over from the NumberReader class. Again, in a real program you'd want to do this differently. Note that each notification method implementation also passes the event on to all the real listeners:
+Of course, to make the adaptor work we have to make some changes to the bootstrap code:
+But note how nicely and easily we can re-link the objects in our system. The fact that adaptors and listeners both implement the listener interface and the adaptor and event source both look like event sources means that we can hook the adaptor into the system without having to change a single statement in the classes that we developed earlier.
+And of course, if we run the same example as given above, the numbers are now recorded in a log file.
+

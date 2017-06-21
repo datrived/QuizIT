@@ -1,0 +1,2 @@
+The do-while loop is functionally similar to the while loop, except the condition is evaluated AFTER the statement executes
+

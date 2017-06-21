@@ -1,0 +1,44 @@
+
+In order to make use of the content in this book, you would need to follow along each and every tutorial rather than simply reading through the book. But to do so, you would need access to a computer with the Java platform installed on it — the Java platform is the basic prerequisite for running and developing Java code, thus it is divided into two essential pieces of software:
+However as a developer, you would only require the JDK which comes equipped with a JRE as well. Given below are installation instruction for the JDK for various operating systems:
+The Java Runtime Environment (JRE) is necessary to execute Java programs. To check which version of Java Runtime Environment (JRE) you have, follow the steps below.
+If you get an error, such as:
+..then the JDK may not be installed or it may not be in your path.
+You may have other versions of Java installed; this command will only show the first in your PATH. You will be made familiar with the PATH environment variable later in this text. For now, if you have no idea what this is all about. Read through towards the end and we will provide you with a step-by-step guide on how to set your own environment variables.
+You can use your system's file search utilities to see if there is a javac.exe executable installed. If it is, and it is a recent enough version (Java 1.4.2 or Java 1.5, for example), you should put the bin directory that contains javac in your system path. The Java runtime, java, is often in the same bin directory.
+If the installed version is older (i.e. it is Java 1.3.1 or Java 1.4.2 and you wish to use the more recent Java 5 release), you should proceed below with downloading and installing a JDK.
+It is possible that you have the Java runtime (JRE), but not the JDK. In that case the javac program won't be found, but the java -version will print the JRE version number.
+Some Windows based systems come built-in with the JRE, however for the purposes of writing Java code by following the tutorials in this book, you would require the JDK nevertheless. The Java Development Kit (JDK) is necessary to build Java programs. First, check to see if a JDK is already installed on your system. To do so, first open a command window and execute the command below.
+If the JDK is installed and on your executable path, you should see some output which tells you the command line options. The output will vary depending on which version is installed and which vendor provided the Java installation.
+On a machine using the Windows operating system, one can invoke the Registry Editor utility by typing REGEDIT in the Run dialog. In the window that opens subsequently, if you traverse through the hierarchy HKEY_LOCAL_MACHINE > SOFTWARE > JavaSoft > Java Development Kit on the left-hand.
+The resultant would be similar to figure 1.2, with the only exception being the version entries for the Java Development Kit. At the time of writing this manuscript, the latest version for the Java Development Kit available from the Internet was 1.7 as seen in the Registry entry. If you see a resultant window that resembles the one presented above, it would prove that you have Java installed on your system, otherwise it is not.
+To acquire the latest JDK (version 7), you can manually download the Java software from the Oracle website.
+For the convenience of our readers, the following table presents direct links to the latest JDK for the Windows operating system.
+You must follow the instructions for the setup installer wizard step-by-step with the default settings to ensure that Java is properly installed on your system. Once the setup is completed, it is highly recommended to restart your Windows operating system.
+If you kept the default settings for the setup installer wizard, your JDK should now be installed at C:\Program Files\Java\jdk1.7.0_01. You would require the location to your bin folder at a later time — this is located at C:\Program Files\Java\jdk1.7.0_01\bin It may be a hidden file, but no matter. Just don't use Program Files (x86)\ by mistake unless that's were installed Java.
+In order for you to start using the JDK compiler utility with the Command Prompt, you would need to set the environment variables that points to the bin folder of your recently installed JDK. To set permanently your environment variables, follow the steps below.
+Once you have successfully installed the JDK on your system, you are ready to program code in the Java programming language. However, to write code, you would need a decent text editor. Windows comes with a default text editor by default — Notepad. In order to use notepad to write code in Java, you need to follow the steps below:
+The Java Runtime Environment (JRE) is necessary to execute Java programs. To check which version of JRE you have, follow the steps below.
+If you get something like this:
+... then a JRE is installed. If you get an error, such as:
+... then the JDK may not be installed or it may not be in your path.
+You may have other versions of Java installed; this command will only show the first in your PATH. You will be made familiar with the PATH environment variable later in this text. For now, if you have no idea what this is all about, read through towards the end and we will provide you with a step-by-step guide on how to set your own environment variables.
+You can use your system's file search utilities to see if there is a javac executable installed. If it is, and it is a recent enough version, you should put the bin directory that contains javac in your system path. The Java runtime, java, is often in the same bin directory.
+If the installed version is older (i.e. it is Java 5 and you wish to use the more recent Java 7 release), you should proceed below with downloading and installing a JDK.
+It is possible that you have the Java runtime (JRE), but not the JDK. In that case the javac program won't be found, but the java -version will print the JRE version number.
+The Java Development Kit (JDK) is necessary to build Java programs. For our purposes, you must use a JDK. First, check to see if a JDK is already installed on your system. To do so, first open a terminal window and execute the command below.
+If the JDK is installed and on your executable path, you should see some output which tells you the command line options. The output will vary depending on which version is installed and which vendor provided the Java installation.
+Downloading and installing the Java platform on Linux machines (in particular Ubuntu Linux) is very easy and straight-forward. To use the terminal to download and install the Java platform, follow the instructions below.
+Alternatively, you can manually download the Java software from the Oracle website.
+For the convenience of our readers, the following table presents direct links to the latest JDK for the Linux operating system.
+The most widely available text editor on GNOME desktops is Gedit, while on the KDE desktops, one can find Kate. Both these editors support syntax highlighting and code completion and therefore are sufficient for our purposes.
+However, if you require a robust and standalone text-editor like the Notepad++ editor on Windows, you would require the use of the minimalistic editor loaded with features – SciTE. Follow the instructions below if you wish to install SciTE:
+On Mac OS, both the JRE and the JDK are already installed. However, the version installed was the latest version when the computer was purchased, so you may want to update it.
+The Java Development Kit (JDK) is necessary to build Java programs. For our purposes, you must use a JDK. First, check to see if a JDK is already installed on your system. To do so, first open a terminal window and execute the command below.
+If the JDK is installed and on your executable path, you should see some output which tells you the command line options. The output will vary depending on which version is installed and which vendor provided the Java installation.
+To do: Add a section describing the installation of Java onto Solaris machines. Incorporate some of the information provided in the commented section of this page.
+If you already have the JRE installed, you can use the Java Wiki Integrated Development Environment (JavaWIDE) to code directly in your browser, no account or special software required.
+Click here to visit the JavaWIDE Sandbox to get started.
+For more information, click here to visit the JavaWIDE site.
+
+

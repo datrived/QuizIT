@@ -1,0 +1,10 @@
+The Java compiler also erases type parameters in generic method arguments. Consider the following generic method:
+Because T is unbounded, the Java compiler replaces it with Object:
+Suppose the following classes are defined:
+You can write a generic method to draw different shapes:
+The Java compiler replaces T with Shape:
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

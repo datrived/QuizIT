@@ -1,0 +1,9 @@
+Quite possibly, the most important part of the JRE is the Java Virtual Machine (JVM). The JVM acts like a virtual processor, enabling Java applications to be run on the local system. It's main purpose is to interpret (read translate) the received byte-code and make it appear as native code. The older Java architecture used this process of interpretation to execute Java byte-code. Even though the process of interpretation brought the WORA principle to diverse machines, it had a drawback — it consumed a lot of time and clocked the system processor intensively to load an application.
+
+
+Since version 1.2, the JRE features a more robust JVM. Instead of interpreting byte-code, it down-right converts the code straight into equivalent native code for the local system. This process of conversion is called just-in-time compilation or JIT-compilation. This process only occurs when the byte-code is executed for the first time. Unless the byte-code itself is changed, the JVM uses the compiled version of the byte-code on every successive execution. Doing so saves a lot of time and processor effort, allowing applications to execute much faster at the cost of a small delay on first execution.
+
+
+The JVM is an intelligent virtual processor. It has the ability to identify areas within the Java code itself that can be optimized for faster and better performance. Based on every successive run of your Java applications, the JVM would optimize it to run even better.
+Java was not the first virtual-machine-based platform, though it is by far the most successful and well-known. Previous uses for virtual machine technology primarily involved emulators to aid development for not-yet-developed hardware or operating systems, but the JVM was designed to be implemented entirely in software, while making it easy to efficiently port an implementation to hardware of all kinds.
+

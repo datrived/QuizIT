@@ -1,0 +1,9 @@
+
+Unchecked, uncaught or runtime exceptions are exceptions that are not required to be caught or declared, even if it is allowed to do so. So a method can throw a runtime exception, even if this method is not supposed to throw exceptions. For example, ConcurrentModificationException is an unchecked exception.
+The unchecked exceptions can only be the RuntimeException and its subclasses, and the class Error and its subclasses. All other exception classes must be handled, otherwise the compiler gives an error.
+Sometime it is desirable to catch all exception for logging purposes, then throw it back on. For example, in servlet programming when application server calls the server doPost(), we want to monitor that no exception even runtime exception happened during serving the request. The application has its own logging separate from the server logging. The runtime exceptions would just go through without detecting it by the application. The following code would check all exceptions, log them, and throw it back again.
+In the above code, all business logic exception are handled in the handleRequest() method. Runtime exceptions are caught for logging purposes, and then thrown back to the server to handle it.
+Runtime exceptions are usually caused by data errors, like arithmetic overflow, divide by zero, ... . Runtime exceptions are not business related exceptions. In a well debugged code, runtime exceptions should not occur. Runtime exceptions should only be used in the case that the exception could be thrown by and only by something hard-coded into the program. These should not be able to be triggered by the software's user(s).
+
+To do: Add some exercises like the ones in Variables
+

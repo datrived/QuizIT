@@ -1,0 +1,5 @@
+throw is a keyword. It 'throws' an exception.
+Syntax:
+For example:
+See also:
+

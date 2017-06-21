@@ -1,0 +1,21 @@
+Many implementations of the Java platform rely on hierarchical file systems to manage source and class files, although The Java Language Specification does not require this. The strategy is as follows.
+Put the source code for a class, interface, enumeration, or annotation type in a text file whose name is the simple name of the type and whose extension is .java. For example:
+Then, put the source file in a directory whose name reflects the name of the package to which the type belongs:
+The qualified name of the package member and the path name to the file are parallel, assuming the Microsoft Windows file name separator backslash (for UNIX, use the forward slash).
+As you should recall, by convention a company uses its reversed Internet domain name for its package names. The Example company, whose Internet domain name is example.com, would precede all its package names with com.example. Each component of the package name corresponds to a subdirectory. So, if the Example company had a com.example.graphics package that contained a Rectangle.java source file, it would be contained in a series of subdirectories like this:
+When you compile a source file, the compiler creates a different output file for each type defined in it. The base name of the output file is the name of the type, and its extension is .class. For example, if the source file is like this
+then the compiled files will be located at:
+Like the .java source files, the compiled .class files should be in a series of directories that reflect the package name. However, the path to the .class files does not have to be the same as the path to the .java source files. You can arrange your source and class directories separately, as:
+By doing this, you can give the classes directory to other programmers without revealing your sources. You also need to manage source and class files in this manner so that the compiler and the Java Virtual Machine (JVM) can find all the types your program uses.
+The full path to the classes directory, <path_two>\classes, is called the class path, and is set with the CLASSPATH system variable. Both the compiler and the JVM construct the path to your .class files by adding the package name to the class path. For example, if
+is your class path, and the package name is
+then the compiler and JVM look for .class files in
+A class path may include several paths, separated by a semicolon (Windows) or colon (UNIX). By default, the compiler and the JVM search the current directory and the JAR file containing the Java platform classes so that these directories are automatically in your class path.
+To display the current CLASSPATH variable, use these commands in Windows and UNIX (Bourne shell):
+To delete the current contents of the CLASSPATH variable, use these commands:
+To set the CLASSPATH variable, use these commands (for example):
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

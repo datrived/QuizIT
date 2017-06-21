@@ -1,0 +1,7 @@
+Sometimes people ask, after creating simple programs like the ones above, questions like:
+Question 9.3: Throughout the exercise listings above, we have been filling the shapes first and then drawing their outlines. What happens if we do it the other way around? Consider the code below.
+All the outlines disappear.
+Question 9.4: What would drawLine(10, 100, 100, 100) give you?
+A horizontal line.
+If you have any questions regarding the content provided here, please feel free to comment in this page's discussion.
+

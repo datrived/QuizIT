@@ -1,0 +1,7 @@
+
+A checked exception is an exception that must be either caught or declared in a method where it can be thrown. For example, the java.io.IOException is a checked exception. To understand what is a checked exception, consider the following code:
+This code won't compile as it throws or can throw a checked exception without catching it or declare it. Two different modifications can resolve the situation: to catching it or to declare it by the throws keyword.
+In the Java class hierarchy, an exception is a checked exception if it inherits from java.lang.Exception, but not from java.lang.RuntimeException. All the application or business logic exceptions should be checked exceptions.
+It is possible that a method declares that it can throw an exception, but actually it does not. Still, the caller has to deal with it. The checked exception declaration has a domino effect. Any methods that will use the previous method will also have to handle the checked exception, and so on.
+So the compiler for the Java programming language checks, at compile time, that a program contains handlers for all application exceptions, by analyzing each method body. If, by executing the method body, an exception can be thrown to the caller, that exception must be declared. How does the compiler know whether a method body can throw an exception? That is easy. Inside the method body, there are calls to other methods; the compiler looks at each of their method signature, what exceptions they declared to throw.
+

@@ -1,0 +1,31 @@
+To use Java generics effectively, you must consider the following restrictions:
+Consider the following parameterized type:
+When creating a Pair object, you cannot substitute a primitive type for the type parameter K or V:
+You can substitute only non-primitive types for the type parameters K and V:
+Note that the Java compiler autoboxes 8 to Integer.valueOf(8) and 'a' to Character('a'):
+For more information on autoboxing, see Autoboxing and Unboxing in the Numbers and Strings lesson.
+You cannot create an instance of a type parameter. For example, the following code causes a compile-time error:
+As a workaround, you can create an object of a type parameter through reflection:
+You can invoke the append method as follows:
+A class's static field is a class-level variable shared by all non-static objects of the class. Hence, static fields of type parameters are not allowed. Consider the following class:
+If static fields of type parameters were allowed, then the following code would be confused:
+Because the static field os is shared by phone, pager, and pc, what is the actual type of os? It cannot be Smartphone, Pager, and TabletPC at the same time. You cannot, therefore, create static fields of type parameters.
+Because the Java compiler erases all type parameters in generic code, you cannot verify which parameterized type for a generic type is being used at runtime:
+The set of parameterized types passed to the rtti method is:
+The runtime does not keep track of type parameters, so it cannot tell the difference between an ArrayList<Integer> and an ArrayList<String>. The most you can do is to use an unbounded wildcard to verify that the list is an ArrayList:
+Typically, you cannot cast to a parameterized type unless it is parameterized by unbounded wildcards. For example:
+However, in some cases the compiler knows that a type parameter is always valid and allows the cast. For example:
+You cannot create arrays of parameterized types. For example, the following code does not compile:
+The following code illustrates what happens when different types are inserted into an array:
+If you try the same thing with a generic list, there would be a problem:
+If arrays of parameterized lists were allowed, the previous code would fail to throw the desired ArrayStoreException.
+A generic class cannot extend the Throwable class directly or indirectly. For example, the following classes will not compile:
+A method cannot catch an instance of a type parameter:
+You can, however, use a type parameter in a throws clause:
+A class cannot have two overloaded methods that will have the same signature after type erasure.
+The overloads would all share the same classfile representation and will generate a compile-time error.
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

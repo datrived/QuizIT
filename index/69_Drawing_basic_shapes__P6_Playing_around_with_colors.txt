@@ -1,0 +1,5 @@
+You can change the color of the outline by telling the Graphics instance the color you desire. This can be done as follows:
+Running the program would render the same rectangle but with a red colored outline.
+For the purposes of bringing color to our drawing, we used a method namely the setColor(Color) method. This method comes into force for all the drawing made after its call until another color is set. It asks for an argument of type Color. Now because you have no idea of how to actually instantiate a Color class, the class itself has a few built-in colors. Some built-in colors that you can use are mentioned below.
+Try running the program while coding changes to colors for a different colored outline each time. Play around a bit with more colors. Look for the Color class API documentation in the external links at the bottom of the page.
+

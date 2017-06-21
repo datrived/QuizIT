@@ -1,0 +1,6 @@
+To execute your first Java program, follow the instructions below:
+If you obtain another message ending by 1 error or ... errors, there may be a mistake in your code. Are you sure all words are spelled correctly and with the exact case as shown? Are there semicolons and brackets in the appropriate spot? Are you missing a quote? Usually, modern IDEs would try coloring the entire source as a quote in this case.
+If your computer emits beeps, then you may have illegal characters in your HelloWorld.java.
+If no HelloWorld.class file has been created in the same folder, then you've got an error. Are you launching the javac program correctly?
+If you obtain an error message like Exception in thread "main" java.lang.NoSuchMethodError: main, your source file may have been badly written.
+

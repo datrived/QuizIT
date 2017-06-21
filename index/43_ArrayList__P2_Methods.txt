@@ -1,0 +1,2 @@
+ArrayList defines following methods:
+

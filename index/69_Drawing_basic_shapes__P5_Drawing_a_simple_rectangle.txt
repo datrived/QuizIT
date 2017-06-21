@@ -1,0 +1,4 @@
+We now proceed on to our second drawing. A simple rectangle would do it justice, see below for code.
+In the above example, you see how easy it is to draw a simple rectangle using the drawRect(int, int, int, int) method in the Graphics instance that we obtained. Run the program and you will see a simple black outline of a rectangle appearing where once a blank canvas was.
+The four arguments that are being passed into the method are, in order of appearance, the x-coordinate, the y-coordinate, width and the height. Hence, the resultant rectangle would start painting at the point on the screen 10 pixels from the left and 10 from the top and would be a 100 pixel wide and a 100 pixel in height. To save the argument here, the above drawing is that of a square with equal sides but squares are drawn using the same method and there is no such method as drawSquare(int, int, int)
+

@@ -1,0 +1,22 @@
+Earlier you saw the use of the print and println methods for printing strings to standard output (System.out). Since all numbers can be converted to strings (as you will see later in this lesson), you can use these methods to print out an arbitrary mixture of strings and numbers. The Java programming language has other methods, however, that allow you to exercise much more control over your print output when numbers are included.
+The java.io package includes a PrintStream class that has two formatting methods that you can use to replace print and println. These methods, format and printf, are equivalent to one another. The familiar System.out that you have been using happens to be a PrintStream object, so you can invoke PrintStream methods on System.out. Thus, you can use format or printf anywhere in your code where you have previously been using print or println. For example,
+The syntax for these two java.io.PrintStream methods is the same:
+where format is a string that specifies the formatting to be used and args is a list of the variables to be printed using that formatting. A simple example would be
+The first parameter, format, is a format string specifying how the objects in the second parameter, args, are to be formatted. The format string contains plain text as well as format specifiers, which are special characters that format the arguments of Object... args. (The notation Object... args is called varargs, which means that the number of arguments may vary.)
+Format specifiers begin with a percent sign (%) and end with a converter. The converter is a character indicating the type of argument to be formatted. In between the percent sign (%) and the converter you can have optional flags and specifiers. There are many converters, flags, and specifiers, which are documented in java.util.Formatter
+Here is a basic example:
+The %d specifies that the single variable is a decimal integer. The %n is a platform-independent newline character. The output is:
+The printf and format methods are overloaded. Each has a version with the following syntax:
+To print numbers in the French system (where a comma is used in place of the decimal place in the English representation of floating point numbers), for example, you would use:
+The following table lists some of the converters and flags that are used in the sample program, TestFormat.java, that follows the table.
+The following program shows some of the formatting that you can do with format. The output is shown within double quotes in the embedded comment:
+You can use the java.text.DecimalFormat class to control the display of leading and trailing zeros, prefixes and suffixes, grouping (thousands) separators, and the decimal separator. DecimalFormat offers a great deal of flexibility in the formatting of numbers, but it can make your code more complex.
+The example that follows creates a DecimalFormat object, myFormatter, by passing a pattern string to the DecimalFormat constructor. The format() method, which DecimalFormat inherits from NumberFormat, is then invoked by myFormatterit accepts a double value as an argument and returns the formatted number in a string:
+Here is a sample program that illustrates the use of DecimalFormat:
+The output is:
+The following table explains each line of output.
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

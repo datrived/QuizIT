@@ -1,0 +1,8 @@
+Actually, there are no two-dimensional arrays in Java. However, an array can contain any class of object, including an array:
+It's not exactly equivalent to two-dimensional arrays because the size of the sub-arrays may vary. The sub-array reference can even be null. Consider:
+Note that the length of a two-dimensional array is the number of one-dimensional arrays it contains. In the above example, weirdTwoDimArray.length is 3, whereas weirdTwoDimArray[2].length is 5.
+In the code section 3.58, we defined an array that has three elements, each element contains an array having 5 elements. We could create the array having the 5 elements first and use that one in the initialize block.
+Question 3.21: Consider the following code:
+Print the whole alphabet in the standard output.
+i will be the indexes of the main array and j will be the indexes of all the sub-arrays. We have to first iterate on the main array. We have to read the size of the array. Then we iterate on each sub-array. We have to read the size of each array as it may vary. Doing so, we iterate on all the sub-array items using the indexes. All the items will be read in the right order.
+

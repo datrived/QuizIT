@@ -1,0 +1,5 @@
+<? super ClassName> specifies a restriction on the types of classes that may be used. For example, to declare a Comparator that can compare Dogs, you use:
+Now suppose you define a comparator that can compare Animals:
+Since Dogs are Animals, you can use this comparator to compare Dogs also. Comparators for any superclass of Dog can also compare Dog; but comparators for any strict subclass cannot.
+The above code is valid because the Animal class is a supertype of the Dog class. Use of a class that is not a supertype would cause a compilation error.
+

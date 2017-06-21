@@ -1,0 +1,10 @@
+An interface can extend several interfaces, similar to the way that a class can extend another class, using the extends keyword:
+This way, a class implementing the InterfaceAB interface has to implement the methodA(), the methodB() and the otherMethod() methods:
+Doing so, a ClassAB object can be casted into InterfaceA, InterfaceB and InterfaceAB.
+Question 4.2: Consider the following interfaces.
+List all the methods that an implementing class of Movable should implement.
+Question 4.3: Consider the following classes and the following code.
+Change the implementation of the code in order to be able to uncomment the commented line without compile error.
+You have to create an interface that defines the method printLog(String) and makes ConsoleLogger and FileLogger implement it:
+Now your code has to cast the objects to the Logger type and then you can uncomment the code.
+

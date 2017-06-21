@@ -1,0 +1,2 @@
+Layouts are what make applets visible. Without a layout, nothing would display. There are five different types of layouts to choose from — some are very simple while others are complex.
+

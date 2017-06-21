@@ -1,0 +1,2 @@
+The Math.E constant represents the value of Euler's number (e), the base of the natural logarithm.
+

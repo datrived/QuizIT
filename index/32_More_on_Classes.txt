@@ -1,0 +1,6 @@
+This section covers more aspects of classes that depend on using object references and the dot operator that you learned about in the preceding sections on objects:
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

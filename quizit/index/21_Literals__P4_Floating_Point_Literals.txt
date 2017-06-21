@@ -1,0 +1,5 @@
+Floating point numbers are expressed as decimal fractions or as exponential notation:
+Floating point numbers consist of:
+Here, integer digits represents one or more of the digits 0 through 9.
+Starting in J2SE 7.0, you may insert underscores between digits in a numeric literal. They are ignored but may help readability by allowing the programmer to group digits.
+

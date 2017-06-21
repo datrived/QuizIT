@@ -1,0 +1,2 @@
+This book uses United States English, purely for the sake of consistency. Most programming languages have words represented in the United States English, e.g., color, etc. You should use the US English wherever possible.
+

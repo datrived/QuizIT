@@ -1,0 +1,956 @@
+{% extends 'student/studentBasepage1.html' %}
+{% load tz %}
+
+{% load mathfilters %}
+{% load string_operations %}
+
+{% block javascript %}
+
+
+{% endblock %}
+
+{% block breadcrumb %}
+	<a href="#">Check Question</a>
+{% endblock %}
+
+{% block content %}
+	<!-- If there is a quiz today -->
+	{% if quizFlag == 1 %}
+
+		{% if topAlertFlag != "99999" %}
+
+			<div class="row-fluid">
+				<div class="box span12">
+
+					<div class="box-header">
+						<h2><i class="halflings-icon white white bullhorn"></i><span class="break"></span>Alert</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content alerts">
+					{% if topAlertFlag == 0 %}
+						<div class="alert alert-error ">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<strong>Error!</strong> Your answer is incorrect!
+						</div>
+					{% elif topAlertFlag == 1 %}
+						<div class="alert alert-success ">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<strong>Oh snap!</strong> Your answer is correct!
+						</div>
+					{% elif topAlertFlag == 3 %}
+						<div class="alert alert-error ">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<strong>Oh snap!</strong> You have already answered the question.
+						</div>
+					{% endif %}
+					</div>
+				</div><!--/span-->
+			</div><!--/row-->
+
+		{% endif %}
+	
+		<div class="row-fluid sortable">
+			<div class="box span6">
+				<div class="box-header">
+					<h2>Quiz- {{ question.datetime }}</h2>
+				</div>
+				<div class="box-content">
+					<div class="page-header">
+
+						<h2>
+						<small>
+						  						
+						{{ question.question|linebreaks }} 
+						
+						</small></h2>
+					</div>
+					<div class="row-fluid">
+						<form class="form-horizontal" id="answerForm" role="form" method="POST">{% csrf_token %}
+							<fieldset>
+							
+							<div class="control-group">
+							
+								{% if question.choiceA != "" %}
+							 	<label class="radio">
+									<input type="radio" name="optionsRadios" id="optionsRadiosA" value="A" required>
+									<span id="optionASpan">
+									&nbsp;&nbsp;&nbsp;
+									</span>
+									<i id="optionAAlert"></i>
+									
+									{{ shuffledQuestion.choiceA }}
+
+									<br>
+							  	</label>
+
+							  	<div style="clear:both"></div>
+							  	{% endif %}
+								
+							  	{% if question.choiceB != "" %}
+							 	<label class="radio">
+									<input type="radio" name="optionsRadios" id="optionsRadiosB" value="B">
+									<span id="optionBSpan">
+									&nbsp;&nbsp;&nbsp;
+									</span>
+									<i id="optionBAlert"></i>
+									
+									{{ shuffledQuestion.choiceB }}
+
+									<br>
+							  	</label>
+							  	<div style="clear:both"></div>
+							  	{% endif %}
+
+							  	{% if question.choiceC != "" %}
+							 	<label class="radio">
+									<input type="radio" name="optionsRadios" id="optionsRadiosC" value="C">
+									<span id="optionCSpan">
+									&nbsp;&nbsp;&nbsp;
+									</span>
+									<i id="optionCAlert"></i>
+									
+									{{ shuffledQuestion.choiceC }}
+
+									<br>
+							  	</label>
+							  	<div style="clear:both"></div>
+							  	{% endif %}
+
+							  	{% if question.choiceD != "" %}
+							 	<label class="radio">
+									<input type="radio" name="optionsRadios" id="optionsRadiosD" value="D">
+									<span id="optionDSpan">
+									&nbsp;&nbsp;&nbsp;
+									</span>
+									<i id="optionDAlert"></i>
+									
+									{{ shuffledQuestion.choiceD}}
+
+									<br>
+							  	</label>
+							  	<div style="clear:both"></div>
+							  	{% endif %}
+
+							  	{% if question.choiceE != "" %}
+							 	<label class="radio">
+									<input type="radio" name="optionsRadios" id="optionsRadiosE" value="E">
+									<span id="optionESpan">
+									&nbsp;&nbsp;&nbsp;
+									</span>
+									<i id="optionEAlert"></i>
+									
+									{{ shuffledQuestion.choiceE }}
+
+									<br>
+							  	</label>
+							  	<div style="clear:both"></div>
+							  	{% endif %}
+
+							  	{% if question.choiceF != "" %}
+							 	<label class="radio">
+									<input type="radio" name="optionsRadios" id="optionsRadiosF" value="F">
+									<span id="optionFSpan">
+									&nbsp;&nbsp;&nbsp;
+									</span>
+									<i id="optionFAlert"></i>
+									
+									{{ shuffledQuestion.choiceF }}
+
+									<br>
+							  	</label>
+							  	<div style="clear:both"></div>
+							  	{% endif %}
+
+						  	</div>
+
+						  	<div id="quizNotification">
+						  	&nbsp;
+							</div>
+							<div class="form-actions" text-align="center">
+								<button type="submit" style = "width:120px;margin: 0px;" class="btn btn-primary submit_id" id="submitButton" >Submit</button>
+								&nbsp;
+								  
+				<!--				<button style = "width:130px;margin: 0px;" class="btn btn-success dash_id" id="perform_button">See Performance</button>
+								&nbsp;
+								  {% if backLocation == 1 %}
+								  	<button type="button" style = "width:120px" class="btn btn-danger" onclick="questionListCalender();">Go Back</button>
+								  {% else %}
+								  	<button type="button" style = "width:120px; " class="btn btn-danger" onclick="questionListCalender();">Go Back</button>
+								    
+							   
+								  {% endif %} -->
+							</div>
+							</fieldset>
+						</form>
+					</div>
+				</div><!--/row -->
+			</div>
+			
+			<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        
+        <div class="modal-body">
+          
+		  <form>
+			<div class="form-group">
+							<label for="comment">Please provide Explanation in the comment section</label>
+							<textarea id="" name="" style="height:50px;"></textarea>
+							
+			</div>
+			<button  type="submit" class="btn btn-primary" onclick = "">Submit</button>
+		  </form>		
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+			
+			
+			<div class="span6" onTablet="span6" onDesktop="span6" style="height:80%;">
+				
+				<div class="box">
+		<div class="box-header"  >
+					<h2><i class="halflings-icon white edit"></i><span class="break"></span>Post Comments</h2>
+					
+				</div>
+				<div class="box-content" >
+				<div class="chat-form">
+							<textarea id="explanationText" name="explanationText" style="height:50px;"></textarea>
+							<button class="btn btn-info" onclick = "postExplanation();">Submit</button> 
+						</div>	 
+				</div>
+				
+				</div>
+				<div class="box" data-toggle="tooltip" data-placement="top" title="Scroll to see" > 
+				<div class="box-header" >
+					<h2><i class="halflings-icon white comment"></i><span class="break"></span>Other's Comments</h2>
+					<div class="box-icon">
+						
+					</div>
+				</div>
+				<div class="box-content" id="myexpl" style="overflow-y:scroll;height: 200px;overflow: -moz-scrollbars-vertical;">
+					<ul class="chat">
+					{% if studentExplanationFlag == True %}
+						
+						{% for studentExplanation in studentExplanations %}
+							<li class="center">
+								<li class="center">
+										<span class="message">
+											<span class="from"> <b> {{ first_name|title }}{{ last_name|title }} ~ </b></span>
+											<span class="time"> <b> {% timezone "America/Phoenix" %} {{ studentExplanation.postTimeStamp }} {% endtimezone %} </b> </span>
+											<span class="text">
+												{{ studentExplanation.explanationText }}
+											</span>
+									</span>	                                  
+								</li>
+							</li>
+							{% endfor %}
+						{% if otherStudentExplanationFlag == True %}
+							{% for otherStudentExplanation in otherStudentExplanations %}
+								<li class="center ">
+										<li class="center myList">
+									        <span class="message">
+											<span class="from"> <b> {{ otherStudentExplanation.student.first_name|anonymize:"1" }} 
+											 {{ otherStudentExplanation.student.last_name|anonymize:"2" }} 
+											~</b></span>
+											<span class="time"> <b> {% timezone "America/Phoenix" %} {{ otherStudentExplanation.postTimeStamp }} {% endtimezone %} </b> </span>
+											<span class="text">
+												{{ otherStudentExplanation.explanationText }}
+											</span>
+									        </span>                             
+							                </li>   
+
+								</li>
+							{% endfor %}
+							{% else %}
+							<b>Other users have not posted any explanations for this question</b>
+						{% endif %}	
+							
+							
+							
+						
+					{% else %}
+						<b>You have to post at least one explanation to view other's comments</b>
+					{% endif %}
+
+					</ul>
+				</div>
+
+				</div>
+		
+	<!--	<div class="box" > 
+				<div class="box-header" >
+					<h2><i class="halflings-icon white comment"></i><span class="break"></span>Want to Submit other explanation?</h2>
+					<div class="box-icon">
+						
+					</div>
+				</div>
+				<div class="box-content"  >
+					<button class="btn btn-primary" onclick = "otherExpl();" style="align-content: center;">Explanation</button>
+			
+				</div>
+				</div> -->
+		
+			</div><!--/span-->
+
+
+		</div>
+	
+<!--		<div class="row-fluid">
+		
+			<div class="box span6" onTablet="span6" onDesktop="span6">
+				<div class="box-header" >
+					<h2><i class="halflings-icon white edit"></i><span class="break"></span>Your Comments</h2>
+					
+				</div>
+				<div class="box-content">
+					<div style="height:250px; overflow-y:scroll;">
+					<ul class="chat" >
+						{% if studentExplanationFlag == True %}
+							{% for studentExplanation in studentExplanations %}
+								<li class="center">
+										<span class="message">
+											<span class="from"> <b> {{ first_name|title }}{{ last_name|title }} ~ </b></span>
+											<span class="time"> <b> {% timezone "America/Phoenix" %} {{ studentExplanation.postTimeStamp }} {% endtimezone %} </b> </span>
+											<span class="text">
+												{{ studentExplanation.explanationText }}
+											</span>
+									</span>	                                  
+								</li>
+							{% endfor %}
+						{% else %}
+							<b>You have not posted any explanations for this question</b>
+						{% endif %}
+						</div>
+						<div class="chat-form">
+							<textarea id="explanationText" name="explanationText"></textarea>
+							<button class="btn btn-info" onclick = "postExplanation();">Submit</button>
+						</div>	
+				</div>
+			</div><!--/span--
+		
+
+			<div class="box span6" onTablet="span6" onDesktop="span6">
+				<div class="box-header" >
+					<h2><i class="halflings-icon white comment"></i><span class="break"></span>Other Comments</h2>
+					<div class="box-icon">
+						
+					</div>
+				</div>
+				<div class="box-content" style="height:405px; overflow-y:scroll;">
+					<ul class="chat">
+					{% if studentExplanationFlag == True %}
+						{% if otherStudentExplanationFlag == True %}
+							{% for otherStudentExplanation in otherStudentExplanations %}
+								<li class="center">
+										<li class="center">
+									<span class="message">
+											<span class="from"> <b> {{ otherStudentExplanation.student.first_name|anonymize:"1" }} 
+											 {{ otherStudentExplanation.student.last_name|anonymize:"2" }} 
+											~</b></span>
+											<span class="time"> <b> {% timezone "America/Phoenix" %} {{ otherStudentExplanation.postTimeStamp }} {% endtimezone %} </b> </span>
+											<span class="text">
+												{{ otherStudentExplanation.explanationText }}
+											</span>
+									</span>                             
+							</li>                     
+								</li>
+							{% endfor %}
+						{% else %}
+							<b>Other users have not posted any explanations for this question</b>
+						{% endif %}	
+					{% else %}
+						<b>You have to post at least one explanation to view this section</b>
+					{% endif %}
+
+					</ul>
+				</div>
+			</div><!--/span--
+
+		</div><!--/row--
+   -->
+	{% endif %}
+
+{% endblock %}
+
+{% block javascript_bottom %}
+{% csrf_token %}
+<script type="text/javascript">
+	var postExplTimestamp = (new Date(0)).toISOString();
+	function postExplanation(){
+
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveExplanation' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"explanationText" : $("#explanationText").val(),
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success:function()
+			{
+				postExplTimestamp = (new Date()).toISOString();
+				window.location.reload(true);
+			}	
+				//alert("success");
+		});
+	}	
+	
+	// redirect to question list page on click the button
+	function questionListCalender(){
+		if(parseInt({{ backLocation }}) == 1){
+			window.location.href = "{% url 'student:studentQuestionList1' %}";
+		}
+		else{
+			window.location.href = "{% url 'student:studentTodaysQuiz1' %}";
+		}
+	}
+
+	
+	function otherExpl(){
+		$('#myModal').modal('show:2000');
+	}
+
+	$(document).ready(function(){
+		
+		var scroll_date;
+		var s1 = "no";
+		var x = 0;	
+		
+		$("#myexpl").on("scroll", throttle(function(){
+			scroll_date = new Date();
+			s1 = scroll_date.toISOString();
+			console.log(s1);
+			x++;
+			}, 100));
+		
+		function throttle(func, wait, options) {
+  var context, args, result;
+  var timeout = null;
+  var previous = 0;
+  if (!options) options = {};
+  var later = function() {
+    previous = options.leading === false ? 0 : Date.now();
+    timeout = null;
+    result = func.apply(context, args);
+    if (!timeout) context = args = null;
+  };
+  return function() {   
+    var now = Date.now();
+    if (!previous && options.leading === false) previous = now;
+    var remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = now;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
+    return result;
+  };
+}
+
+
+
+
+		
+var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+	//var csrftoken = Cookies.get('csrftoken');
+
+	var isFirefox = typeof InstallTrigger !== 'undefined';
+	var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+	var isIE = /*@cc_on!@*/false || !!document.documentMode;
+	var isChrome = !!window.chrome && !!window.chrome.webstore;
+	var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+	
+	var view_date1, view_date2;
+	var spentTime;
+	var focus = 1;
+	var n1;
+	
+	var postAnswerTimestamp = (new Date(0)).toISOString();
+	
+	
+	
+	
+	if(!isSafari){
+		focus = 1;
+window.onload = (function(){
+	x = 0;
+	view_date1 = new Date();
+	n1 = view_date1.toISOString();
+	$("[data-toggle='tooltip']").tooltip('show');
+	setTimeout(function(){ 
+       $("[data-toggle='tooltip']").tooltip('hide');}, 2000); 
+	return;
+});
+}
+else{
+	function myLoadHandler(evt){
+				focus = 1;
+				view_date1 = new Date();
+				n1 = view_date1.toISOString();
+				x = 0;
+				if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+				
+				$("[data-toggle='tooltip']").tooltip('show');
+				setTimeout(function(){ 
+       $("[data-toggle='tooltip']").tooltip('hide');}, 2000); 
+				//window.alert("Safari...");
+				$.post("{% url 'student:saveTimestamp' %}",
+				{
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": 0,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : (new Date(0)).toISOString(),
+				"scroll": x,
+				"commentTimestamp": (new Date(0)).toISOString(),
+				"questionPostTimestamp": (new Date(0)).toISOString(),
+				csrfmiddlewaretoken: csrftoken,
+			},
+			function()
+			{
+				});
+			return;
+			}	
+	 function myUnloadHandler(evt)   //not working currently
+    {
+        
+		focus = 1;
+        //window.alert("Safari Bye...");
+		view_date2 = new Date();
+		spentTime = view_date2.getTime() - view_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.post("{% url 'student:saveTimestamp' %}",
+				{
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			function()
+			{
+			}	);
+		return;
+	}
+	
+	
+window.close = (function(){
+		focus = 1;
+		view_date2 = new Date();
+		spentTime = view_date2.getTime() - view_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+window.onblur =  (function(){
+		focus = 0;
+		view_date2 = new Date();
+		spentTime = view_date2.getTime() - view_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+); 
+	}
+		
+        window.addEventListener("pageshow", myLoadHandler, false);
+		window.addEventListener("pagehide", myUnloadHandler, false);
+
+if(isChrome) {  
+window.onbeforeunload = (function(){
+		focus = 1;
+		view_date2 = new Date();
+		spentTime = view_date2.getTime() - view_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+	});
+		return;
+	}
+);
+window.close = (function(){
+		focus = 1;
+		view_date2 = new Date();
+		spentTime = view_date2.getTime() - view_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+window.onblur =  (function(){
+		focus = 0;
+		view_date2 = new Date();
+		spentTime = view_date2.getTime() - view_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+); 
+}
+else if(isFirefox ){
+	window.onunload = (function(){
+		focus = 1;
+		view_date2 = new Date();
+		spentTime = view_date2.getTime() - view_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			});
+		return;
+	}
+);
+window.close = (function(){
+		focus = 1;
+		view_date2 = new Date();
+		spentTime = view_date2.getTime() - view_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		
+		return;
+	}
+);
+window.onblur =  (function(){
+		focus = 0;
+		view_date2 = new Date();
+		spentTime = view_date2.getTime() - view_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 2,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+); 
+}
+	
+if(focus == 0){
+	x = 0;
+	window.onfocus = (function(){
+	view_date1 = new Date();
+	focus = 1;
+	
+});
+	
+}
+
+		
+		
+
+		// when the page is loaded the first time
+		var studentAns = "{{ studentAnswer }}";
+		if( studentAns!= null && parseInt("{{ studentAnswer.numAttempts }}")>0 ) {
+			//var answerSequence = "{{ studentAnswer.answerSequence }}";
+			var answerSequence = "{{ shuffledAnswerSequence }}";
+			var answer = "{{ shuffledQuestion.answer }}";
+			var selectedArr = answerSequence.split("|");
+			var index = selectedArr.indexOf("");
+			if (index > -1) {
+			    selectedArr.splice(index, 1);
+			}
+			console.log(selectedArr);
+			console.log(selectedArr.length);
+			for(var x=0; x<selectedArr.length;x++){
+        		if( selectedArr[x] == answer.trim() ){
+
+        			$("#option"+selectedArr[x]+"Span").empty(); //removing spaces. 3 spaces = one icon
+        			$("#option"+selectedArr[x]+"Alert").attr("class","icon-ok"); // create ok sign
+        			$("#option"+selectedArr[x]+"Alert").attr("style","color:green"); // make the sign green in color
+        			$('[id^="optionsRadios"]').attr("disabled",true); // disable all radio buttons
+        			$("#submitButton").attr("disabled","disabled"); // disable submit button
+
+        			$('#quizNotification').attr("class","alert alert-warning");
+	                $('#quizNotification').html("You have answered the question correctly in "+ selectedArr.length +" attempts");
+	                //$('#quizNotification').html("You have answered the question correctly");
+        		} 
+        		else if(selectedArr[x]!=''){
+
+        			$("#option"+selectedArr[x]+"Span").empty();
+        			$("#option"+selectedArr[x]+"Alert").attr("class","icon-remove");
+        			$("#option"+selectedArr[x]+"Alert").attr("style","color:red");
+        			$("#optionsRadios"+selectedArr[x]).attr("disabled",true);
+        			$('#quizNotification').attr("class","alert alert-warning");
+        			$('#quizNotification').html("You have made " + selectedArr.length +" unsuccessful attempts to answer the question");
+	                //$('#quizNotification').html("You have not yet answered the question correctly in this section");
+        		}
+        	}
+		}
+
+		// form submit
+		$("#answerForm").submit(function(event){
+			
+			var selectedOption = $('input[name=optionsRadios]:checked').val();
+			event.preventDefault();
+			var choiceList = {{ choiceList|safe }};
+
+			var postData = {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"selectedOption" : selectedOption,
+				"choiceList" : choiceList,
+				"activityID" : "{{ activityID }}",
+				"csrfmiddlewaretoken" : $('input[name=csrfmiddlewaretoken]').val(),  
+			};
+			
+			$.ajax({
+					type : "POST",
+	                url : "{% url 'student:todaysQuizProcessing' %}",
+	                data : postData,
+	                success : function(data){
+	                	var returnedData = JSON.parse(data);
+
+	                	var selectedArr = returnedData.shuffledAnswerSequence.split("|");
+	                	var index = selectedArr.indexOf("");
+							if (index > -1) {
+							    selectedArr.splice(index, 1);
+							}
+						console.log(selectedArr);
+						console.log(selectedArr.length);
+	                	for(var x=0; x<selectedArr.length;x++){
+	                		if( selectedArr[x] == returnedData.shuffledAnswer ){
+	                			$("#option"+selectedArr[x]+"Span").empty();
+	                			$("#option"+selectedArr[x]+"Alert").attr("class","icon-ok");
+	                			$("#option"+selectedArr[x]+"Alert").attr("style","color:green");
+	                			$('[id^="optionsRadios"]').attr("disabled",true);
+
+	                			$('#quizNotification').attr("class","alert alert-warning");
+	                			$('#quizNotification').html("CORRECT ANSWER!! You have answered the question correctly in "+ returnedData.numAttempts +" attempts");
+	                			//$('#quizNotification').html("CORRECT ANSWER!!");
+	                		} 
+	                		else if(selectedArr[x]!=''){
+	                			$("#option"+selectedArr[x]+"Span").empty();
+	                			$("#option"+selectedArr[x]+"Alert").attr("class","icon-remove");
+	                			$("#option"+selectedArr[x]+"Alert").attr("style","color:red");
+	                			$("#optionsRadios"+selectedArr[x]).attr("disabled",true);
+
+	                			$('#quizNotification').attr("class","alert alert-warning");
+	                			$('#quizNotification').html("INCORRECT ANSWER!! You have made " + selectedArr.length +" unsuccessful attempts to answer the question");
+	                			//$('#quizNotification').html("INCORRECT ANSWER!! You have made "+ selectedArr.length + " unsuccessful attempt(s) to answer the question");
+	                			//$('#quizNotification').html("INCORRECT ANSWER!!");
+	                		}
+	                		console.log("Answer: "+selectedArr[x]);
+	                	}
+	                	selectedArrSorted = selectedArr.sort();
+	                	//console.log(selectedArrSorted);
+						$("#submitButton").prop("disabled", true);
+						postAnswerTimestamp = (new Date()).toISOString();
+						//$('#myModal').modal('show');
+	                }
+			
+			}); // end of ajax call
+		}); // end of submit button function
+	
+/*	$('#myModal').on('shown.bs.modal', function () {
+  $('#explanationText').focus();
+}); */
+	
+	
+	
+	}); // end of document ready
+	
+	
+	/*	function updateVotes(recommendationId,studentId,questionId,voteFlag,spanId)
+		{
+			console.log(spanId);
+			$.ajax({
+				type: "POST",
+				url: "{% url 'student:updateRecommendations' %}",
+				data: {
+					recommendationId : recommendationId,
+					questionId : questionId,
+					voteFlag : voteFlag,
+					studentId : studentId,
+					csrfmiddlewaretoken: '{{ csrf_token }}'
+				},
+				success:function()
+				{
+					console.log("success");
+					spanId = '#'+spanId;
+					if(voteFlag == 0)
+						$(spanId).html("You have <strong>downvoted</strong> this reading");
+					else
+						$(spanId).html("You have <strong>upvoted</strong> this reading");
+					window.location.reload(true);
+				}	
+					//alert("success");
+			});
+		} */
+
+
+</script>
+{% endblock %}

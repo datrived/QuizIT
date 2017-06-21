@@ -1,0 +1,6 @@
+
+We start with basic transfer object:
+Following is the example for invoking method from the above mentioned to dynamically. Code is self explanatory.
+Conclusion: Above examples demonstrate the invocation of method dynamically using reflection.
+To do: Add some exercises like the ones in Variables
+

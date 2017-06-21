@@ -1,0 +1,3 @@
+The interface methods and interfaces are always public. You do not need to specify the access modifier. It will default to public. For clarity it is considered a good practice to put the public keyword.
+The same way all member variables defined in the Interface by default will become static final once inherited in a class.
+

@@ -1,0 +1,3 @@
+If a section is optional, it can be hidden like this:
+This section is not mandatory.
+

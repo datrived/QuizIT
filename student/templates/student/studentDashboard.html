@@ -1,0 +1,1670 @@
+{% extends 'student/studentBasepage1.html' %}
+{% load staticfiles %}
+{% block css_top %}
+    <style type="text/css">
+		body {
+		  overflow-x: hidden;
+		  overflow-y: scroll;
+		  margin: 0;
+		 
+
+		}
+		div.span6{
+			overflow-x: scroll;
+			overflow-y: scroll;
+			background: #888;
+		}
+
+		#chart {
+		  position: absolute;
+		  top: 200px;
+		  left: 300px;
+		}	
+
+ 		.axis path,
+		.axis line {
+  			fill: none;
+  			stroke: #000;
+  			shape-rendering: crispEdges;
+		}
+
+		.bar {
+ 		 fill: orange;
+		}
+
+		.solidArc:hover {
+  		fill: orangered ;
+		}
+
+		.solidArc {
+
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+		}
+
+		.x.axis path {
+  		display: none;
+		}
+
+		.aster-score { 
+  		line-height: 1;
+  		font-weight: bold;
+  		font-size: 500%;
+		}
+
+		.d3-tip {
+  		line-height: 1;
+  		font-weight: bold;
+  		padding: 12px;
+  		background: rgba(0, 0, 0, 0.8);
+  		color: #fff;
+  		border-radius: 2px;
+		}
+
+		/* Creates a small triangle extender for the tooltip */
+		.d3-tip:after {
+  		box-sizing: border-box;
+  		display: inline;
+  		font-size: 10px;
+  		width: 100%;
+  		line-height: 1;
+  		color: rgba(0, 0, 0, 0.8);
+  		content: "\25BC";
+  		position: absolute;
+  		text-align: center;
+		}
+		#mainContainer{
+			overflow-y: scroll;
+		}
+		/* Style northward tooltips differently */
+		.d3-tip.n:after {
+ 		 margin: -1px 0 0 0;
+  		top: 100%;
+  		left: 0;
+		}
+		
+		</style>
+	{% endblock %}
+	{% block javascript %}
+	{% csrf_token %}
+<script type="text/javascript">
+	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+	//var csrftoken = Cookies.get('csrftoken');
+
+	var isFirefox = typeof InstallTrigger !== 'undefined';
+	var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+	var isIE = /*@cc_on!@*/false || !!document.documentMode;
+	var isChrome = !!window.chrome && !!window.chrome.webstore;
+	var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+	
+	var dash_date1, dash_date2;
+	var spentTime;
+	var focus = 1;
+	var n1;
+	var scroll_date; // Last Scroll time
+	var s1 = (new Date(0)).toISOString();
+	var postExplTimestamp = (new Date(0)).toISOString();
+	var postAnswerTimestamp = (new Date(0)).toISOString();
+	
+	if(!isSafari){
+		focus = 1;
+		window.onload = (function(){
+		dash_date1 = new Date();
+		n1 = dash_date1.toISOString();
+		return;
+		});
+}
+else{
+	
+	function myLoadHandler(evt){
+			focus = 1;
+			dash_date1 = new Date();
+			n1 = dash_date1.toISOString();
+			$.post("{% url 'student:saveTimestamp' %}",
+				{
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": 0,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			function()
+			{
+			});
+			return;		
+	}
+	
+	 function myUnloadHandler(evt)
+    {
+        focus = 1;
+		dash_date2 = new Date();
+		spentTime = dash_date2.getTime() - dash_date1.getTime();
+		window.alert("Safari Bye...");
+		$.post("{% url 'student:saveTimestamp' %}",
+				{
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			function()
+			{
+			}	);
+		return;	
+		}
+window.close = (function(){
+		focus = 1;
+		dash_date2 = new Date();
+		spentTime = dash_date2.getTime() - dash_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+
+
+
+window.onblur = (function(){
+		focus = 0;
+		dash_date2 = new Date();
+		spentTime = dash_date2.getTime() - dash_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	});
+}
+
+
+window.addEventListener("pageshow", myLoadHandler, false);
+window.addEventListener("pagehide", myUnloadHandler, false);
+
+if(isChrome ) {  
+window.onbeforeunload = (function(){
+		focus = 1;
+		dash_date2 = new Date();
+		spentTime = dash_date2.getTime() - dash_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+
+window.close = (function(){
+		focus = 1;
+		dash_date2 = new Date();
+		spentTime = dash_date2.getTime() - dash_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+
+window.onblur = (function(){
+		focus = 0;
+		dash_date2 = new Date();
+		spentTime = dash_date2.getTime() - dash_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			});
+		return;
+	}
+);
+}
+else if(isFirefox ){
+	window.onunload = (function(){
+		focus = 1;
+		dash_date2 = new Date();
+		spentTime = dash_date2.getTime() - dash_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			});
+		return;
+	}
+);
+	
+window.close = (function(){
+		focus = 1;
+		dash_date2 = new Date();
+		spentTime = dash_date2.getTime() - dash_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+
+window.onblur = (function(){
+		focus = 0;
+		dash_date2 = new Date();
+		spentTime = dash_date2.getTime() - dash_date1.getTime();
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : -1,
+				"activity_type": 4,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": 0,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+}
+	
+if(focus == 0){
+	
+	window.onfocus = (function(){
+	dash_date1 = new Date();
+	focus = 1;
+});
+	
+}
+
+
+</script>
+{% endblock %}
+{% block breadcrumb %}
+	<a href="#">Your Performance comparison with class</a>
+{% endblock %}
+
+
+
+
+{% block content %}
+<div class="container-fluid" id="mainContainer" >
+ <!-- <div class="row sortable box span12" style="margin-bottom: 20px;">
+	<div class="box-header"><h2><strong>Legends</strong></h2></div>
+	<div class="box-content">
+	<div class="span3" id="four" >
+		
+	</div>
+	<div class="span3" id="third" >
+		
+	</div>
+	<div class="span3" id="second" >
+		
+	</div>
+	<div class="span3" id="first" >
+		
+	</div>
+	</div>
+	
+</div> -->
+	<div class="row sortable span12" >
+			{% if studentStatFlag == 1 %}
+	   
+		<!--		<h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Overall Stats</h2> -->
+				<div class="span6" style="background-color: white;margin: 2px;border-width: medium;border-style: solid;border-color: #428bca;" >
+			<h2 style="text-align: center;color: black;"><strong>{{firstName}}'s Performance</strong></h2>
+	
+				<div  id="aster1" style="align-items: center;">
+	            
+				</div>
+			
+	</div>
+			
+       <div class="span6" style="background-color: white;margin: 2px;border-width: medium;border-style: solid;border-color: #428bca;" >
+		<h2 style="text-align: center;color: black;"><strong>Class Performance</strong></h2>
+			
+				<div  id="aster2" style="align-items: center;" >
+	            
+				</div>
+				
+				
+            </div>
+	   
+	               
+            </div>
+	{%else %}
+			<div style="height:200px;color: red;border: 2px solid #5bc0de;padding-left: 10px;"></br> <h2>Hey {{firstName}}, </br></br>You have to answer atleast one question to see your performance analysis.</h2> </div>
+            {% endif %}
+</div>
+{% endblock %}
+
+
+{% block javascript_bottom %}
+<!--
+<script src="{% static "account/js/d3.v0.6.3.js" %}"></script>
+<script src="{% static "account/js/custom_js/RadarChart.js" %}"></script>
+	<script src="{% static "account/js/d3.v3.min.js" %}"></script>
+<!-- start: JavaScript
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.v0.6.3.js"></script>
+
+<script src="{% static "account/js/d3.v0.6.3.js" %}"></script>
+-->
+{% autoescape off %}
+<script type="text/javascript">
+// d3.tip
+// Copyright (c) 2013 Justin Palmer
+//
+// Tooltips for d3.js SVG visualizations
+
+// Public - contructs a new tooltip
+//
+// Returns a tip
+d3.tip = function() {
+  var direction = d3_tip_direction,
+      offset    = d3_tip_offset,
+      html      = d3_tip_html,
+      node      = initNode(),
+      svg       = null,
+      point     = null,
+      target    = null
+
+  function tip(vis) {
+    svg = getSVGNode(vis)
+    point = svg.createSVGPoint()
+    document.body.appendChild(node)
+  }
+
+  // Public - show the tooltip on the screen
+  //
+  // Returns a tip
+  tip.show = function() {
+    var args = Array.prototype.slice.call(arguments)
+    if(args[args.length - 1] instanceof SVGElement) target = args.pop()
+
+    var content = html.apply(this, args),
+        poffset = offset.apply(this, args),
+        dir     = direction.apply(this, args),
+        nodel   = d3.select(node), i = 0,
+        coords
+
+    nodel.html(content)
+      .style({ opacity: 1, 'pointer-events': 'all' })
+
+    while(i--) nodel.classed(directions[i], false)
+    coords = direction_callbacks.get(dir).apply(this)
+    nodel.classed(dir, true).style({
+      top: (coords.top +  poffset[0]) + 'px',
+      left: (coords.left + poffset[1]) + 'px'
+    })
+
+    return tip
+  }
+
+  // Public - hide the tooltip
+  //
+  // Returns a tip
+  tip.hide = function() {
+    nodel = d3.select(node)
+    nodel.style({ opacity: 0, 'pointer-events': 'none' })
+    return tip
+  }
+
+  // Public: Proxy attr calls to the d3 tip container.  Sets or gets attribute value.
+  //
+  // n - name of the attribute
+  // v - value of the attribute
+  //
+  // Returns tip or attribute value
+  tip.attr = function(n, v) {
+    if (arguments.length < 2 && typeof n === 'string') {
+      return d3.select(node).attr(n)
+    } else {
+      var args =  Array.prototype.slice.call(arguments)
+      d3.selection.prototype.attr.apply(d3.select(node), args)
+    }
+
+    return tip
+  }
+
+  // Public: Proxy style calls to the d3 tip container.  Sets or gets a style value.
+  //
+  // n - name of the property
+  // v - value of the property
+  //
+  // Returns tip or style property value
+  tip.style = function(n, v) {
+    if (arguments.length < 2 && typeof n === 'string') {
+      return d3.select(node).style(n)
+    } else {
+      var args =  Array.prototype.slice.call(arguments)
+      d3.selection.prototype.style.apply(d3.select(node), args)
+    }
+
+    return tip
+  }
+
+  // Public: Set or get the direction of the tooltip
+  //
+  // v - One of n(north), s(south), e(east), or w(west), nw(northwest),
+  //     sw(southwest), ne(northeast) or se(southeast)
+  //
+  // Returns tip or direction
+  tip.direction = function(v) {
+    if (!arguments.length) return direction
+    direction = v == null ? v : d3.functor(v)
+
+    return tip
+  }
+
+  // Public: Sets or gets the offset of the tip
+  //
+  // v - Array of [x, y] offset
+  //
+  // Returns offset or
+  tip.offset = function(v) {
+    if (!arguments.length) return offset
+    offset = v == null ? v : d3.functor(v)
+
+    return tip
+  }
+
+  // Public: sets or gets the html value of the tooltip
+  //
+  // v - String value of the tip
+  //
+  // Returns html value or tip
+  tip.html = function(v) {
+    if (!arguments.length) return html
+    html = v == null ? v : d3.functor(v)
+
+    return tip
+  }
+
+  function d3_tip_direction() { return 'n' }
+  function d3_tip_offset() { return [0, 0] }
+  function d3_tip_html() { return ' ' }
+
+  var direction_callbacks = d3.map({
+    n:  direction_n,
+    s:  direction_s,
+    e:  direction_e,
+    w:  direction_w,
+    nw: direction_nw,
+    ne: direction_ne,
+    sw: direction_sw,
+    se: direction_se
+  }),
+
+  directions = direction_callbacks.keys()
+
+  function direction_n() {
+    var bbox = getScreenBBox()
+    return {
+      top:  bbox.n.y - node.offsetHeight,
+      left: bbox.n.x - node.offsetWidth / 2
+    }
+  }
+
+  function direction_s() {
+    var bbox = getScreenBBox()
+    return {
+      top:  bbox.s.y,
+      left: bbox.s.x - node.offsetWidth / 2
+    }
+  }
+
+  function direction_e() {
+    var bbox = getScreenBBox()
+    return {
+      top:  bbox.e.y - node.offsetHeight / 2,
+      left: bbox.e.x
+    }
+  }
+
+  function direction_w() {
+    var bbox = getScreenBBox()
+    return {
+      top:  bbox.w.y - node.offsetHeight / 2,
+      left: bbox.w.x - node.offsetWidth
+    }
+  }
+
+  function direction_nw() {
+    var bbox = getScreenBBox()
+    return {
+      top:  bbox.nw.y - node.offsetHeight,
+      left: bbox.nw.x - node.offsetWidth
+    }
+  }
+
+  function direction_ne() {
+    var bbox = getScreenBBox()
+    return {
+      top:  bbox.ne.y - node.offsetHeight,
+      left: bbox.ne.x
+    }
+  }
+
+  function direction_sw() {
+    var bbox = getScreenBBox()
+    return {
+      top:  bbox.sw.y,
+      left: bbox.sw.x - node.offsetWidth
+    }
+  }
+
+  function direction_se() {
+    var bbox = getScreenBBox()
+    return {
+      top:  bbox.se.y,
+      left: bbox.e.x
+    }
+  }
+
+  function initNode() {
+    var node = d3.select(document.createElement('div'))
+    node.style({
+      position: 'absolute',
+      opacity: 0,
+      pointerEvents: 'none',
+      boxSizing: 'border-box'
+    })
+
+    return node.node()
+  }
+
+  function getSVGNode(el) {
+    el = el.node()
+    if(el.tagName.toLowerCase() == 'svg')
+      return el
+
+    return el.ownerSVGElement
+  }
+
+  // Private - gets the screen coordinates of a shape
+  //
+  // Given a shape on the screen, will return an SVGPoint for the directions
+  // n(north), s(south), e(east), w(west), ne(northeast), se(southeast), nw(northwest),
+  // sw(southwest).
+  //
+  //    +-+-+
+  //    |   |
+  //    +   +
+  //    |   |
+  //    +-+-+
+  //
+  // Returns an Object {n, s, e, w, nw, sw, ne, se}
+  function getScreenBBox() {
+    var targetel   = target || d3.event.target,
+        bbox       = {},
+        matrix     = targetel.getScreenCTM(),
+        tbbox      = targetel.getBBox(),
+        width      = tbbox.width,
+        height     = tbbox.height,
+        x          = tbbox.x,
+        y          = tbbox.y,
+        scrollTop  = document.documentElement.scrollTop || document.body.scrollTop,
+        scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft
+
+
+    point.x = x + scrollLeft
+    point.y = y + scrollTop
+    bbox.nw = point.matrixTransform(matrix)
+    point.x += width
+    bbox.ne = point.matrixTransform(matrix)
+    point.y += height
+    bbox.se = point.matrixTransform(matrix)
+    point.x -= width
+    bbox.sw = point.matrixTransform(matrix)
+    point.y -= height / 2
+    bbox.w  = point.matrixTransform(matrix)
+    point.x += width
+    bbox.e = point.matrixTransform(matrix)
+    point.x -= width / 2
+    point.y -= height / 2
+    bbox.n = point.matrixTransform(matrix)
+    point.y += height
+    bbox.s = point.matrixTransform(matrix)
+
+    return bbox
+  }
+
+  return tip
+};
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+var	dataSet1 = [ {"name": "Not Attempted", "color" : "#777"}
+				
+	];
+	
+var width = 100;
+var height = 80;
+
+	var svg = d3.select("#first").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+	.append("g");
+    
+
+var legend = svg.selectAll(".legend")
+  .data(dataSet1)
+.enter().append("g")
+  .attr("class", "legend")
+  .attr("transform", function(d, i) { return "translate(" + (width - 20) + "," + i * 30 + ")"; });
+  
+  legend.append("rect")
+  .attr("width", 15)
+  .attr("height", 15)
+  
+  .style("fill", function(d) { return (d.color); });
+
+  // draw legend text
+  legend.append("text")
+  .attr("y", 7)
+  .attr("dx", -4)
+  .attr("dy", ".35em")
+  .style("text-anchor", "end")
+  .style("font-size", "12px")
+  .text(function(d) { return d.name;});
+}); 
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+var	dataSet1 = [ {"name": "<70%", "color" : "#d9534f"}
+				
+				
+	];
+	
+var width = 100;
+var height = 80;
+
+	var svg = d3.select("#second").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+	.append("g");
+    
+
+var legend = svg.selectAll(".legend")
+  .data(dataSet1)
+.enter().append("g")
+  .attr("class", "legend")
+  .attr("transform", function(d, i) { return "translate(" + (width - 20) + "," + i * 30 + ")"; });
+  
+  legend.append("rect")
+  .attr("width", 15)
+  .attr("height", 15)
+  
+  .style("fill", function(d) { return (d.color); });
+
+  // draw legend text
+  legend.append("text")
+  .attr("y", 7)
+  .attr("dx", -4)
+  .attr("dy", ".35em")
+  .style("text-anchor", "end")
+  .style("font-size", "12px")
+  .text(function(d) { return d.name;});
+}); 
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+var	dataSet1 = [ {"name": "70%-90%", "color" : "#f9d423"}
+				
+	];
+	
+var width = 100;
+var height = 80;
+
+	var svg = d3.select("#third").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+	.append("g");
+    
+
+var legend = svg.selectAll(".legend")
+  .data(dataSet1)
+.enter().append("g")
+  .attr("class", "legend")
+  .attr("transform", function(d, i) { return "translate(" + (width - 20) + "," + i * 30 + ")"; });
+  
+  legend.append("rect")
+  .attr("width", 15)
+  .attr("height", 15)
+  
+  .style("fill", function(d) { return (d.color); });
+
+  // draw legend text
+  legend.append("text")
+  .attr("y", 7)
+  .attr("dx", -4)
+  .attr("dy", ".35em")
+  .style("text-anchor", "end")
+  .style("font-size", "12px")
+  .text(function(d) { return d.name;});
+}); 
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+var	dataSet1 = [ {"name": ">90%", "color" : "#5cb85c"}
+				
+	];
+	
+var width = 100;
+var height = 80;
+
+	var svg = d3.select("#four").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+	.append("g");
+    
+
+var legend = svg.selectAll(".legend")
+  .data(dataSet1)
+.enter().append("g")
+  .attr("class", "legend")
+  .attr("transform", function(d, i) { return "translate(" + (width - 20) + "," + i * 30 + ")"; });
+  
+  legend.append("rect")
+  .attr("width", 15)
+  .attr("height", 15)
+  
+  .style("fill", function(d) { return (d.color); });
+
+  // draw legend text
+  legend.append("text")
+  .attr("y", 7)
+  .attr("dx", -4)
+  .attr("dy", ".35em")
+  .style("text-anchor", "end")
+  .style("font-size", "12px")
+  .text(function(d) { return d.name;});
+}); 
+</script>
+
+
+<script type="text/javascript">
+
+$(document).ready( function(){
+	//document.getElementById('chart').innerHTML = "Hello..."; 
+
+dump2 = JSON.stringify({{allPercentage}});
+all = JSON.parse(dump2);
+
+$(function () {
+  $('[data-toggle="tooltip2"]').tooltip('hide');
+});
+
+var dump = JSON.stringify({{studentTotal|safe}});
+var student = JSON.parse(dump);
+if( typeof student == undefined){
+	window.alert("Hey!");
+}
+ var ary = [];
+ function pushToAry(val) {
+   
+   ary.push(val);
+}
+
+ 
+var i = 1;
+for(var keys in student){
+	if(student.hasOwnProperty(keys)){
+	var a = student[keys];
+	//result += keys;
+	var j=0;
+	for(var k in a){
+		if(a.hasOwnProperty(k)){
+		
+		var str = a[k];
+		if(! isNaN(str)){
+			str2 = Math.round(str);
+		}
+		else{
+			str1= str;
+		}
+	if(j%2 == 1){
+		var obj={};
+		obj['id'] = i;
+		obj['order'] = i;
+		obj['score'] = str2;
+		obj['weight'] = 1;
+		obj['color'] = "#C7E89E";
+		obj['label'] = str1;
+		
+		pushToAry(obj);
+	    i++;
+		
+	}
+	j++;
+
+ }
+	
+}} }
+	
+
+	
+
+var canvasWidth = 500, //width
+            canvasHeight = 500,   //height
+            outerRadius = 150,   //radius
+            //outerRadius =  Math.min(canvasWidth, canvasHeight) / 2,
+            color = d3.scale.category10(); //builtin range of colors
+		innerRadius =30;
+    
+    
+
+    var vis = d3.select("#aster1")
+            .append("svg:svg")
+         
+            .attr("width", canvasWidth)
+            .attr("height", canvasHeight)
+            .append("svg:g")
+          
+            .attr("transform", "translate(" + 0.5*canvasWidth + "," + 0.5*canvasWidth + ")") // relocate center of pie to 'outerRadius,outerRadius'
+
+    var arc = d3.svg.arc()
+            .innerRadius(innerRadius)
+            .outerRadius(outerRadius);
+    var arc1 = d3.svg.arc()
+            .innerRadius(innerRadius)
+            .outerRadius(function (d) {
+                return (outerRadius - innerRadius) * (d.data.score / 100.0) + innerRadius;
+            })
+            ;
+    var arc2 =d3.svg.arc()
+            .innerRadius(innerRadius)
+            .outerRadius(function (d) {
+                return outerRadius + innerRadius + 160;
+            })
+            ;
+ var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([0, 0])
+  .html(function(d) {
+    return " <span style='color:white;font-size:20px;'>" + d.data.label + ": <span style='color:white;font-size:20px;'>" + d.data.score + "</span>";
+  });   
+
+        
+        
+    var pie = d3.layout.pie()
+			
+            .sort(null)
+            .value(function(d) { return d.weight; });
+
+    // Select all <g> elements with class slice (there aren't any yet)
+    var arcs = vis.selectAll("g.slice")
+            .data(pie(ary))
+            .enter()
+            
+            .append("svg:g")
+            
+            .attr("class", "slice");
+
+
+
+arcs.append("svg:path")
+        //set the color for each slice to be chosen from the color function defined above
+            .data(pie(ary))
+            .attr("fill", "none")
+        //this creates the actual SVG path using the associated data (pie) with the arc drawing function
+            .attr("stroke", "black")
+            .attr("d", arc);
+			
+			
+			
+			function colorPick(d){
+				if(d.data.score < 70){
+					return "#d9534f";
+				}
+				else if(d.data.score<90){
+					return "#f9d423";
+				}
+				else{
+					return "#5cb85c";
+				}
+			}
+			
+			
+			
+			/*
+ function colorPick(d){
+	if(d.data.score < 30){
+		return "#f60817";
+        }
+		else if(d.data.score < 40 ){
+			return "#f315ec";
+		}
+		else if(d.data.score <50){
+			return "#f9622c";
+			}
+			else if(d.data.score < 60){
+				return "#ffff00";
+			}
+			else if(d.data.score < 70){
+				return "#80ff00";
+			}
+			else if(d.data.score < 80){
+				return "#00ffff";
+			}
+			else if(d.data.score <90){
+				return "#0000ff";
+			}
+			else{
+				return "#950b7a";
+				
+			}
+		
+  }      */
+
+    arcs.append("svg:path")
+        //set the color for each slice to be chosen from the color function defined above
+            .attr("fill", function(d) {
+  return colorPick(d);
+			})
+        //this creates the actual SVG path using the associated data (pie) with the arc drawing function
+            .attr("stroke", "black")
+			.attr("stroke-width", "1px")
+            .attr("d", arc1)
+            .on("mouseover", tip.show)
+            .on("mouseout", tip.hide)
+            ;
+ 
+ 
+
+
+var grid = d3.svg.area.radial()
+    .radius(30);
+var sdat = [];
+var numTicks = 5;
+for (i=1; i<=numTicks; i++) {
+	if(i==1 || i==5){
+		sdat[i] = 0;
+	}
+    else{
+	sdat[i] = ((outerRadius/numTicks) * i);
+}
+}
+
+addCircleAxes = function() {
+    var circleAxes, i;
+        
+    arcs.selectAll('.circle-ticks').remove();
+        
+    circleAxes = arcs.selectAll('.circle-ticks')
+      .data(sdat)
+      .enter().append('svg:g')
+      .attr("class", "circle-ticks");
+
+    circleAxes.append("svg:circle")
+      .attr("r", String)
+      .attr("class", "circle")
+      .attr("stroke", "#777")
+      .style("fill", "none");
+
+    
+};
+//addCircleAxes();
+arcs.call(tip);
+ /* 
+var outerPath = svg.selectAll(".arc")
+      .data(pie)
+    .enter().append("arcs")
+      .attr("fill", "none")
+      .attr("stroke", "gray")
+      .attr("class", "arcs")
+      .attr("d", arc); */
+
+
+  var text = arcs.append("svg:text")
+            .attr("transform", function(d) {
+                d.outerRadius = outerRadius + 75;
+                d.innerRadius = outerRadius + 70;
+                return "translate(" + arc2.centroid(d) + ")";
+            })
+            .attr("text-anchor", "middle") //center the text on it's origin
+            .style("fill", "black")
+            .style("font", "bold 10px Arial")
+     
+    .each(function (d) {   
+      var arr = d.data.label.split(" ");
+      if (arr != undefined) {
+          for (i = 0; i < arr.length; i++) {
+              d3.select(this).append("tspan")
+                  .text(arr[i])
+                  .attr("dy", i ? "1.2em" : 0)
+                  .attr("x", 0)
+                  .attr("text-anchor", "middle")
+                  .attr("class", "tspan" + i);
+          }
+      }
+    });
+    
+    var text2 = arcs.append("svg:text")
+                .attr("transform", function(d) {
+                d.outerRadius = outerRadius + 75;
+                d.innerRadius = outerRadius + 70;
+                return "translate(" + arc.centroid(d) + ")";
+            })
+            .attr("text-anchor", "middle") //center the text on it's origin
+            .style("fill", "black")
+            .style("font", "bold 12px Arial")
+            .each(function (d) {   
+      var arr = d.data.score;
+      
+              d3.select(this).append("tspan")
+                  .text(arr)
+                  .attr("dy", i ? "1.2em" : 0)
+                  .attr("x", 0)
+                  .attr("text-anchor", "middle")
+                  .attr("class", "tspan" + i);
+          
+    });
+    
+var score = 
+    ary.reduce(function(a, b) {
+      //console.log('a:' + a + ', b.score: ' + b.score + ', b.weight: ' + b.weight);
+      return a + (b.score * b.weight); 
+    }, 0) / 
+    ary.reduce(function(a, b) { 
+      return a + b.weight; 
+    }, 0); 
+
+arcs.append("svg:text")
+          
+          .attr("dy", ".35em")
+          .attr("text-anchor", "middle") //center the text on it's origin
+          .style("fill", "black")
+          .style("font-size", "20px")
+          .text(Math.round(score));
+    
+
+
+    //.text(function(d, i) { return dataSet[i].legendLabel; })
+         // .html(function(d, i) { return  '<tspan>'+dataSet[i].legendLabel+'</tspan></n><tspan>'+dataSet[i].score+'</tspan>'})
+   /* arcs.append("foreignObject")
+            .attr("transform", function(d) {
+                d.outerRadius = outerRadius + 75;
+                d.innerRadius = outerRadius + 70;
+                return "translate(" + arc.centroid(d) + ")";
+            })
+            .attr("width", 50)
+            .attr("height", 50)
+            .append("xhtml:body")
+            .style("font", "14px 'Helvetica Neue'")
+            .html(function(d, i) { return dataSet[i].legendLabel+'<br>'+dataSet[i].score; });*/
+
+
+
+
+
+
+}); 
+
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+
+ var ary2 = [];
+ function pushToAry2(val) {
+   
+   ary2.push(val);
+}
+
+ 
+var i2 = 1;
+for(var keys in all){
+	if(all.hasOwnProperty(keys)){
+	var a = all[keys];
+	//result += keys;
+	var j=0;
+	for(var k in a){
+		if(a.hasOwnProperty(k)){
+		
+		var str = a[k];
+		if(! isNaN(str)){
+			str2 = Math.round(str);
+		}
+		else{
+			str1= str;
+		}
+	if(j%2 == 1){
+		var obj={};
+		obj['id'] = i;
+		obj['order'] = i;
+		obj['score'] = str2;
+		obj['weight'] = 1;
+		obj['color'] = "#C7689E";
+		obj['label'] = str1;
+		
+		pushToAry2(obj);
+	    i2++;
+		
+	}
+	j++;
+
+ }
+	
+}} }
+	
+
+var canvasWidth = 500, //width
+            canvasHeight = 500,   //height
+            outerRadius = 150,   //radius
+            //outerRadius =  Math.min(canvasWidth, canvasHeight) / 2,
+            color = d3.scale.ordinal(); //builtin range of colors
+		innerRadius =30;
+    
+
+    var vis = d3.select("#aster2")
+            .append("svg:svg")
+         
+            .attr("width", canvasWidth)
+            .attr("height", canvasHeight)
+            .append("svg:g")
+          
+            .attr("transform", "translate(" + 0.5*canvasWidth + "," + 0.5*canvasWidth + ")") // relocate center of pie to 'outerRadius,outerRadius'
+
+    var arc = d3.svg.arc()
+            .innerRadius(innerRadius)
+            .outerRadius(outerRadius);
+    var arc1 = d3.svg.arc()
+            .innerRadius(innerRadius)
+            .outerRadius(function (d) {
+                return (outerRadius - innerRadius) * (d.data.score / 100.0) + innerRadius;
+            })
+            ;
+    var arc2 =d3.svg.arc()
+            .innerRadius(innerRadius)
+            .outerRadius(function (d) {
+                return outerRadius + innerRadius + 150;
+            })
+            ;
+ var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([0, 0])
+  .html(function(d) {
+    return "<span style='color:white;font-size:20px;'>" + d.data.label + ": <span style='color:white;font-size:20px;'>" + d.data.score + "</span>";
+  });
+  
+  
+  
+  function colorPick(d){
+				if(d.data.score < 70){
+					return "#d9534f";
+				}
+				else if(d.data.score<90){
+					return "#f9d423";
+				}
+				else{
+					return "#5cb85c";
+				}
+			}
+/*
+  function colorPick(d){
+	if(d.data.score < 30){
+		return "#f60817";
+        }
+		else if(d.data.score < 40 ){
+			return "#f315ec";
+		}
+		else if(d.data.score <50){
+			return "#f9622c";
+			}
+			else if(d.data.score < 60){
+				return "#ffff00";
+			}
+			else if(d.data.score < 70){
+				return "#80ff00";
+			}
+			else if(d.data.score < 80){
+				return "#00ffff";
+			}
+			else if(d.data.score <90){
+				return "#0000ff";
+			}
+			else{
+				return "#950b7a";
+				
+			}
+		
+  }        */
+    var pie = d3.layout.pie()
+			
+            .sort(null)
+            .value(function(d) { return d.weight; });
+
+    // Select all <g> elements with class slice (there aren't any yet)
+    var arcs = vis.selectAll("g.slice")
+	
+            .data(pie(ary2))
+            .enter()
+            
+            .append("svg:g")
+            .append("svg:a")
+			.attr("href", "{% url 'student:studentQuestionList1' %}")
+			
+            .attr("class", "slice");
+
+
+
+arcs.append("svg:path")
+        //set the color for each slice to be chosen from the color function defined above
+            .data(pie(ary2))
+            .attr("fill", "none")
+        //this creates the actual SVG path using the associated data (pie) with the arc drawing function
+            .attr("stroke", "black")
+            .attr("d", arc);
+ 
+
+    arcs.append("svg:path")
+        //set the color for each slice to be chosen from the color function defined above
+            .attr("fill",function(d){ return colorPick(d);})
+        //this creates the actual SVG path using the associated data (pie) with the arc drawing function
+            .attr("stroke", "black")
+			.attr("stroke-width", "1px")
+            .attr("d", arc1)
+            .on("mouseover", tip.show)
+            .on("mouseout", tip.hide)
+            ;
+ 
+ 
+arcs.call(tip); 
+ /* 
+var outerPath = svg.selectAll(".arc")
+      .data(pie)
+    .enter().append("arcs")
+      .attr("fill", "none")
+      .attr("stroke", "gray")
+      .attr("class", "arcs")
+      .attr("d", arc); */
+
+
+var grid = d3.svg.area.radial()
+    .radius(30);
+var sdat = [];
+var numTicks = 5;
+for (i=1; i<=numTicks; i++) {
+	if(i==1 || i==5){
+		sdat[i] = 0
+	}else{
+    sdat[i] = ((outerRadius/numTicks) * i);
+	}
+}
+
+addCircleAxes = function() {
+    var circleAxes, i;
+        
+    arcs.selectAll('.circle-ticks').remove();
+        
+    circleAxes = arcs.selectAll('.circle-ticks')
+      .data(sdat)
+      .enter().append('svg:g')
+      .attr("class", "circle-ticks");
+
+    circleAxes.append("svg:circle")
+      .attr("r", String)
+      .attr("class", "circle")
+      .attr("stroke", "#777")
+      .style("fill", "none");
+
+    
+};
+//addCircleAxes();
+  var text = arcs.append("svg:text")
+            .attr("transform", function(d) {
+                d.outerRadius = outerRadius + 75;
+                d.innerRadius = outerRadius + 70;
+                return "translate(" + arc2.centroid(d) + ")";
+            })
+            .attr("text-anchor", "middle") //center the text on it's origin
+            .style("fill", "black")
+            .style("font", "bold 10px Arial")
+     
+    .each(function (d) {   
+      var arr =   d.data.label.split(" ");
+      if (arr != undefined) {
+		//arr[0] = '<a href="#">'  + 'Devanshi' + '</a>';
+          for (i = 0; i < arr.length; i++) {
+              d3.select(this).append("tspan")
+				  .text(arr[i])
+                  .attr("dy", i ? "1.2em" : 0)
+                  .attr("x", 0)
+                  .attr("text-anchor", "middle")
+                  .attr("class", "tspan" + i);
+          }
+      }
+    });
+    
+    var text2 = arcs.append("svg:text")
+                .attr("transform", function(d) {
+                d.outerRadius = outerRadius + 75;
+                d.innerRadius = outerRadius + 70;
+                return "translate(" + arc.centroid(d) + ")";
+            })
+            .attr("text-anchor", "middle") //center the text on it's origin
+            .style("fill", "black")
+            .style("font", "bold 12px Arial")
+            .each(function (d) {   
+      var arr = d.data.score;
+      
+              d3.select(this).append("tspan")
+                  .text(arr)
+                  .attr("dy", i ? "1.2em" : 0)
+                  .attr("x", 0)
+                  .attr("text-anchor", "middle")
+                  .attr("class", "tspan" + i);
+          
+    });
+    
+var score = 
+    ary2.reduce(function(a, b) {
+      //console.log('a:' + a + ', b.score: ' + b.score + ', b.weight: ' + b.weight);
+      return a + (b.score * b.weight); 
+    }, 0) / 
+    ary2.reduce(function(a, b) { 
+      return a + b.weight; 
+    }, 0); 
+
+arcs.append("svg:text")
+          
+          .attr("dy", ".35em")
+          .attr("text-anchor", "middle") //center the text on it's origin
+          .style("fill", "black")
+          .style("font-size", "20px")
+          .text(Math.round(score));
+    
+
+
+    //.text(function(d, i) { return dataSet[i].legendLabel; })
+         // .html(function(d, i) { return  '<tspan>'+dataSet[i].legendLabel+'</tspan></n><tspan>'+dataSet[i].score+'</tspan>'})
+   /* arcs.append("foreignObject")
+            .attr("transform", function(d) {
+                d.outerRadius = outerRadius + 75;
+                d.innerRadius = outerRadius + 70;
+                return "translate(" + arc.centroid(d) + ")";
+            })
+            .attr("width", 50)
+            .attr("height", 50)
+            .append("xhtml:body")
+            .style("font", "14px 'Helvetica Neue'")
+            .html(function(d, i) { return dataSet[i].legendLabel+'<br>'+dataSet[i].score; });*/
+
+
+
+
+
+
+		});
+</script>
+<script type="text/javascript">
+	
+/*
+$(document).ready( function(){
+	//document.getElementById('chart').innerHTML = "Hello..."; 
+
+
+
+
+
+var dump2 = JSON.stringify({{allPercentage|safe}});
+var all = JSON.parse(dump2);
+ var ary = [];
+ function pushToAry(val) {
+   
+   ary.push(val);
+}
+
+ 
+var i = 1;
+for(var keys in all){
+	if(all.hasOwnProperty(keys)){
+	var a = all[keys];
+	//result += keys;
+	var j=0;
+	for(var k in a){
+		if(a.hasOwnProperty(k)){
+		
+		var str = a[k];
+		if(! isNaN(str)){
+			str2 = Math.round(str);
+		}
+		else{
+			str1= str;
+		}
+	if(j%2 == 1){
+		var obj={};
+		obj['id'] = i;
+		obj['order'] = i;
+		obj['score'] = str2;
+		obj['weight'] = 1;
+		obj['color'] = "#C7E89E";
+		obj['label'] = str1;
+		
+		pushToAry(obj);
+	    i++;
+		
+	}
+	j++;
+
+ }
+	
+}} }
+	
+
+
+var width = 200,
+    height = 200,
+    radius = Math.min(width, height) / 2,
+    innerRadius = 0.3 * radius;
+	
+var i = 1;
+var j= 0;
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) {
+		return d.weight; });
+
+
+var tip = d3()
+  .attr('class', 'd3-tip')
+  .offset([0, 0])
+  .html(function(d) {
+   //window.alert(d.data.label);
+	return d.data.label + ": <span style='color:oranged'>" + d.data.score + "</span>";
+  });
+
+var arc = d3.svg.arc()
+  .innerRadius(innerRadius)
+  .outerRadius(function (d) {
+	
+    return (radius - innerRadius) * (d.data.score / 100.0) + innerRadius; 
+  });
+
+var outlineArc = d3.svg.arc()
+        .innerRadius(innerRadius)
+        .outerRadius(radius);
+
+var svg = d3.select("#chart").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+	;
+	
+	
+svg.call(tip);
+
+var path = svg.selectAll(".solidArc")
+      .data(pie(ary))
+    .enter().append("path")
+      .attr("fill", function(d) { return d.data.color; })
+      .attr("class", "solidArc")
+      .attr("stroke", "gray")
+      .attr("d", arc)
+	  .on("",tip.show)
+	  .on("mouseout",tip.hide);
+	  
+  
+	path.append("svg:title").text(function(d){
+		return d.data.score;
+	});
+    
+var outerPath = svg.selectAll(".outlineArc")
+      .data(pie(ary))
+    .enter().append("path")
+      .attr("fill", "none")
+      .attr("stroke", "gray")
+      .attr("class", "outlineArc")
+      .attr("d", outlineArc);  
+
+
+  // calculate the weighted mean score
+  var score = 
+    ary.reduce(function(a, b) {
+      //console.log('a:' + a + ', b.score: ' + b.score + ', b.weight: ' + b.weight);
+      return a + (b.score * b.weight); 
+    }, 0) / 
+    ary.reduce(function(a, b) { 
+      return a + b.weight; 
+    }, 0);
+
+  svg.append("svg:text")
+    .attr("class", "aster-score")
+    .attr("dy", ".20em")
+	.style("font-size", "14px")
+    .attr("text-anchor", "middle") // text-align: right
+    .text(Math.round(score));  
+	
+
+}); 
+*/
+</script>
+{% endautoescape %}
+
+
+
+
+  
+{% endblock %}  

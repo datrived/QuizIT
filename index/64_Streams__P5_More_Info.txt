@@ -1,0 +1,4 @@
+More information on the contents of the java.io package can be viewed on the Oracle website by clicking this link (http://docs.oracle.com/javase/7/docs/api/index.html).
+
+To do: Add some exercises like the ones in Variables
+

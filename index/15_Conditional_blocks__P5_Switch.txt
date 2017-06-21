@@ -1,0 +1,11 @@
+The switch conditional statement is basically a shorthand version of writing many if...else statements. The switch block evaluates a char, byte, short, or int (or enum, starting in J2SE 5.0; or String, starting in J2SE 7.0), and, based on the value provided, jumps to a specific case within the switch block and executes code until the break command is encountered or the end of the block. If the switch value does not match any of the case values, execution will jump to the optional default case.
+The structure of a switch statement is as follows:
+}
+Here is an example to illustrate:
+If a case does not end with the break statement, then the next case will be checked, otherwise the execution will jump to the end of the switch statement.
+Look at this example to see how it's done:
+Starting in J2SE 5.0, the switch statement can also be used with an enum value instead of an integer.
+Though enums have not been covered yet, here is an example so you can see how it's done (note that the enum constants in the cases do not need to be qualified with the type:
+Starting in J2SE 7.0, the switch statement can also be used with an String value instead of an integer.
+
+

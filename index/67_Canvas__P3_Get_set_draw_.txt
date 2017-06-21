@@ -1,0 +1,7 @@
+Now that the basic structure of our program has been laid out, we need to explore how drawing is actually done by writing Java code. Move to the next section and try your hand at drawing basic shapes and lines. But whilst you are still fresh to the concept of a Canvas, why not test your knowledge. Try answering these questions below.
+Question 9.1: What classes are used to draw in Java?
+2 A class derived from the Object class is not viable as a visible component, whereas a class derived from a Component class is a visible entity atop a Container hence a likely candidate for displaying drawings.
+Question 9.2: What is the method that needs to be overridden in order to enable drawing?
+3 As discussed earlier the paint(Graphics) method is the correct option. The name says it all.
+
+

@@ -1,0 +1,5 @@
+The following table lists all the synchronized map classes:
+java.util.concurrent.ConcurrentHashMap
+
+To do: Add some exercises like the ones in Variables
+

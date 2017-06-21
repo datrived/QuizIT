@@ -1,0 +1,4 @@
+Released on 28 July 2011.
+Feature additions for Java 7 include:[5]
+Lambda (Java's implementation of lambda functions), Jigsaw (Java's implementation of modules), and part of Coin were dropped from Java 7. Java 8 will be released with the remaining features in summer 2013.[18]
+

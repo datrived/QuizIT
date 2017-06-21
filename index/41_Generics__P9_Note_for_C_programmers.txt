@@ -1,0 +1,6 @@
+Java Generics are similar to C++ Templates in that both were added for the same reason. The syntax of Java Generic and C++ Template are also similar. There are some differences however. The C++ template can be seen as a kind of macro, in that a new copy of the code is generated for each generic type referenced. All extra code for templates is generated at compiler time. In contrast, Java Generics are built into the language. The same code is used for each generic type. For example:
+Both these objects appear as the same type at runtime (both ArrayList's). The generic type information is erased during compilation (type erasure). For example:
+is transformed by erasure into:
+Question 4.9: Consider the following class.
+Which lines will generate a compile error?
+

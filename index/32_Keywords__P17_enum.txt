@@ -1,0 +1,4 @@
+This enumeration constant then can be passed in to methods:
+An enumeration may also have parameters:
+It is also possible to let an enumeration implement interfaces other than java.lang.Comparable and java.io.Serializable, which are already implicitly implemented by each enumeration:
+

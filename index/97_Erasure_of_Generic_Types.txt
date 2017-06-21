@@ -1,0 +1,10 @@
+During the type erasure process, the Java compiler erases all type parameters and replaces each with its first bound if the type parameter is bounded, or Object if the type parameter is unbounded.
+Consider the following generic class that represents a node in a singly linked list:
+Because the type parameter T is unbounded, the Java compiler replaces it with Object:
+In the following example, the generic Node class uses a bounded type parameter:
+The Java compiler replaces the bounded type parameter T with the first bound class, Comparable:
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

@@ -1,0 +1,6 @@
+Generally, it is best to make data private or protected. Access to the data is controlled by setter and getter methods. This lets the programmer control access to data, allowing him/her to check for and handle invalid data.
+In the code section 3.51, the setName() method will only change the value of name if the new name is not null. Because setName() is conditionally changing name, it is wise to return a boolean to let the program know if the change was successful.
+Question 3.15: Consider the following class.
+List the fields and methods of this class that can be renamed without changing or even knowing the client classes.
+Every field or method that is public can be directly called by a client class so this class would return a compile error if the field or the method has a new name.
+

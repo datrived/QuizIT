@@ -1,0 +1,29 @@
+
+Feel free to post any questions you have while learning Java Programming. If you have questions about this book, post them on the Java Programming discussion page. If you know the answer to a question, or you can improve any, go ahead and do it.
+
+Generics come from other languages, see article on w:Generic programming for more information.
+CORBA is language independent "Remote Method Invocation" like RMI. RMI only works with Java, CORBA can be used with any languages. For more information see: w:Common Object Request Broker Architecture.
+RMI is much simpler to use than CORBA, so in an only Java environment RMI should be used.
+If you need to call methods between different language environments, use CORBA. With CORBA a Java client can call C++ server and/or a C++ client can call a Java server. With RMI that can not be done.
+The Vector class can receive any object (so it can not receive primitive types), even different types of data in the same Vector.
+The Vector and Hashtable classes are legacy classes that come from the 1.0 version of Java and have enforced synchronized methods resulting in performance issues on systems that does not require this characteristic. Additional classes were added at 1.2, those are ArrayList and HashMap, without synchronization. Both syncronized and not syncronized versions are implementing the List and Map interfaces, respectivelly.
+Since Java 1.5, there is Generics, which allows you to specify that you want a container, like an ArrayList, to contain only certain types of things. This allows you to guarantee that what you are getting out of the container is a certain type at compile time, without explicitly casting it. This is safer (you avoid cast errors at run time) and makes your code more readable and understandable. You should use generics whenever possible.
+Java applications can be run in the same way as any other program if they are found in .JAR or .JNLP packages. If you are trying to run a .class file, simply open a command line prompt and type java MyClass, where MyClass is the name of the class file you are trying to launch.
+The Java String class provides substring() methods that should provide what you need. For example, mid(str, a, b) in Visual Basic would be something like str.substring(a, a+b).
+A class is a template to create objects. Methods and variables declared private can not be access outside of the class. Those can be only accessed internally, it means that they are hidden from the outside. It makes programming esier because it is garantide that those internal information won't be messed up by outside code.
+No. Keywords are resirved by the compiler and can not be used for variables.
+Java does not have jump statements. The goto is reserved, but not used. The break statement is close to a jump statetement, but the destination of the jump is well defined. It breaks/jumps out from a loop, or a switch statement.
+Yes. Singleton constructors are private. When the constructor is private no object of that class can be created outside of that class. How and when an object can be created of that class is defined by that class.
+Java uses unicode, while C++ uses ASCII. Unicode consists of a repertoire of about 100,000 characters, which is much more than what the ASCII character-set can represent. See also Java Programming/Syntax/Unicode Source
+You can display the value of any variable by using the System.out.print() and System.out.println() functions.
+The java language is introduced from here. Ftiercel (discuss • contribs) 19:29, 11 March 2013 (UTC)
+The JVM is not generated. You download the JRE or JDK and once installed you launch the JVM as explained here. System is a class. It's a static use of a class. out is a static field of the System class. The book explain how to create a class here. Ftiercel (discuss • contribs) 19:29, 11 March 2013 (UTC)
+The simplest way to log your code is to print in the standard output, that is to say to use System.out.println();. Ftiercel (discuss • contribs) 19:29, 11 March 2013 (UTC)
+To calculate the perimeter or the area of a shape, use the methods of the java.lang.Math class as explained here. To draw sush shapes, you can use Swing as described here. Ftiercel (discuss • contribs) 19:29, 11 March 2013 (UTC)
+public class A{
+}
+public class T{
+}
+Using Eclipse, you can access to the method declaration clicking on it pressing the Ctrl key. You can access to the features of a class in your program using Reflection. BlueJ is not the most popular IDE, so there is not much information about it in the IDE section. Ftiercel (discuss • contribs) 19:29, 11 March 2013 (UTC)
+int i = 5 - 2; Ftiercel (discuss • contribs) 19:29, 11 March 2013 (UTC)
+

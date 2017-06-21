@@ -1,0 +1,3 @@
+A return statement exits from a block, so it is often the last statement of a method:
+A return statement can return the content of a variable or nothing. Beware not to write statements after a return statement which would not be executed! Each return statement is ended by a semi-colon (;).
+

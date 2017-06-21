@@ -1,0 +1,4 @@
+
+In Java, we can distinguish two kinds of equality.
+If two objects are equal in reference, they are equal in value too.
+

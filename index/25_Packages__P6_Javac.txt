@@ -1,0 +1,4 @@
+For example, to compile and run a class from a project's top directory (that contains the two directories /source and /libraries) you could use the following command:
+And then to run it, similarly:
+The above is simplified, and demands that MainClass be in the default package, or a package called source, which isn't very desirable.
+

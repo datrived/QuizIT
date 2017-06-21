@@ -1,0 +1,5 @@
+
+Prior to modern networking solutions there existed workstations that were connected to a massive Mainframe computer that was solely responsible for memory management, processes and almost everything. The workstations would just render the information sent in from the Mainframe console.
+But in the mid 90's, with the prices of Unix servers dropping, the trend was moving away from Mainframe computing toward Client-Server computing. This would enable rich clients to be developed on workstations while they would communicate with a centralized server, serving computers connected to it, to either communicate with other workstations also connected to it or it would request for database access or business logic stored on the server itself. The workstations were called clients.
+This form of computing gave rise to the notion of the Front-end and Back-end programming. In it's hey-day, Java came up with different ways of making networking between computers possible. In this chapter, we would be looking at some of these ways. Listed below are two of the frameworks that Java uses to enable network programming. We would be exploring both of these in this chapter.
+

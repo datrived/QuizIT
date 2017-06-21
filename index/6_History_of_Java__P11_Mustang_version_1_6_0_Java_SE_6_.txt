@@ -1,0 +1,3 @@
+Released on 11 December 2006.[4]
+What's New in Java SE 6:
+

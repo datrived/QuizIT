@@ -1,0 +1,6 @@
+The Java compiler tool (named javac in the JDK) is the most important utility found with the JDK. In order to compile a Java source file (say, SomeApplication.java) to its respective Java byte-code, you would need to use the following command in Command Prompt (on Windows) or Terminal (on Linux or Mac OS):
+This command would convert the SomeApplication.java source file into its equivalent Java byte-code. The resultant byte-code would exist in a newly created file named SomeApplication.class. This process of converting Java source files into their equivalent byte-codes is known as compilation.
+
+
+There are a huge array of tools available with the JDK that will all be explained in due time as you progress with the book. These tools are briefly listed below in order of their usage:
+

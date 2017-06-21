@@ -1,0 +1,3 @@
+Finally, we need one more class: the kickoff point for the application. This class will contain a main() method, plus code to create a NumberReader, a listener and to combine the two:
+If you compile and run the program, the result looks somewhat like this:
+

@@ -1,0 +1,3 @@
+This layout places one big component in the center and up till four components at the edges. When adding to the container with this layout, you need to specify the location as the second parameter like BorderLayout.CENTER for the center or one of the world directions for the edge (BorderLayout.NORTH points to the top edge).
+If you have two components, it is not the same to put the first in the north and the second to the center as to put the first in the center and the second to the south. In the first case, the layout will calculate the size of the component and the second component will have all the space left. In the second case, it is the opposite.
+

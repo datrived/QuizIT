@@ -1,0 +1,5 @@
+A try/catch must at least contain the try block and the catch block:
+Question 3.1: How many statements are there in this class?
+5 One statement at line 3, two statements at line 6, one statement at line 7 and one statement at line 11.
+
+

@@ -1,0 +1,5 @@
+This layout places components left to right, using as much space as is needed. The Flow Layout is the default layout for applets and, therefore, does not need to be set. However, for clarity, one can specify the applet layout as a Flow Layout by placing this line of code at the top of the init() method:
+The added components to the layout that follow will be placed on screen in order of which they are added.
+Assuming that these variables are defined the same as above, these lines of code will create the layout of an applet that is composed of a label, a text field, and a button. They will all appear on one line if the window permits. By changing the width of window, the Flow Layout will contract and expand the components accordingly.
+
+

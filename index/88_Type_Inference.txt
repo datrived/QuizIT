@@ -1,0 +1,29 @@
+Type inference is a Java compiler's ability to look at each method invocation and corresponding declaration to determine the type argument (or arguments) that make the invocation applicable. The inference algorithm determines the types of the arguments and, if available, the type that the result is being assigned, or returned. Finally, the inference algorithm tries to find the most specific type that works with all of the arguments.
+To illustrate this last point, in the following example, inference determines that the second argument being passed to the pick method is of type Serializable:
+Generic Methods introduced you to type inference, which enables you to invoke a generic method as you would an ordinary method, without specifying a type between angle brackets. Consider the following example, BoxDemo, which requires the Box class:
+The following is the output from this example:
+The generic method addBox defines one type parameter named U. Generally, a Java compiler can infer the type parameters of a generic method call. Consequently, in most cases, you do not have to specify them. For example, to invoke the generic method addBox, you can specify the type parameter with a type witness as follows:
+Alternatively, if you omit the type witness,a Java compiler automatically infers (from the method's arguments) that the type parameter is Integer:
+You can replace the type arguments required to invoke the constructor of a generic class with an empty set of type parameters (<>) as long as the compiler can infer the type arguments from the context. This pair of angle brackets is informally called the diamond.
+For example, consider the following variable declaration:
+You can substitute the parameterized type of the constructor with an empty set of type parameters (<>):
+Note that to take advantage of type inference during generic class instantiation, you must use the diamond. In the following example, the compiler generates an unchecked conversion warning because the HashMap() constructor refers to the HashMap raw type, not the Map<String, List<String>> type:
+Note that constructors can be generic (in other words, declare their own formal type parameters) in both generic and non-generic classes. Consider the following example:
+Consider the following instantiation of the class MyClass:
+This statement creates an instance of the parameterized type MyClass<Integer>; the statement explicitly specifies the type Integer for the formal type parameter, X, of the generic class MyClass<X>. Note that the constructor for this generic class contains a formal type parameter, T. The compiler infers the type String for the formal type parameter, T, of the constructor of this generic class (because the actual parameter of this constructor is a String object).
+Compilers from releases prior to Java SE 7 are able to infer the actual type parameters of generic constructors, similar to generic methods. However, compilers in Java SE 7 and later can infer the actual type parameters of the generic class being instantiated if you use the diamond (<>). Consider the following example:
+In this example, the compiler infers the type Integer for the formal type parameter, X, of the generic class MyClass<X>. It infers the type String for the formal type parameter, T, of the constructor of this generic class.
+The Java compiler takes advantage of target typing to infer the type parameters of a generic method invocation. The target type of an expression is the data type that the Java compiler expects depending on where the expression appears. Consider the method Collections.emptyList, which is declared as follows:
+Consider the following assignment statement:
+This statement is expecting an instance of List<String>; this data type is the target type. Because the method emptyList returns a value of type List<T>, the compiler infers that the type argument T must be the value String. This works in both Java SE 7 and 8. Alternatively, you could use a type witness and specify the value of T as follows:
+However, this is not necessary in this context. It was necessary in other contexts, though. Consider the following method:
+Suppose you want to invoke the method processStringList with an empty list. In Java SE 7, the following statement does not compile:
+The Java SE 7 compiler generates an error message similar to the following:
+The compiler requires a value for the type argument T so it starts with the value Object. Consequently, the invocation of Collections.emptyList returns a value of type List<Object>, which is incompatible with the method processStringList. Thus, in Java SE 7, you must specify the value of the value of the type argument as follows:
+This is no longer necessary in Java SE 8. The notion of what is a target type has been expanded to include method arguments, such as the argument to the method processStringList. In this case, processStringList requires an argument of type List<String>. The method Collections.emptyList returns a value of List<T>, so using the target type of List<String>, the compiler infers that the type argument T has a value of String. Thus, in Java SE 8, the following statement compiles:
+See Target Typing in Lambda Expressions for more information.
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

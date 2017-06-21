@@ -1,0 +1,2 @@
+We can pass any primitive data types or objects to a method but the two are not processed the same way.
+

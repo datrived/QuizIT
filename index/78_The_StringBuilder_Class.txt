@@ -1,0 +1,23 @@
+StringBuilder objects are like String objects, except that they can be modified. Internally, these objects are treated like variable-length arrays that contain a sequence of characters. At any point, the length and content of the sequence can be changed through method invocations.
+Strings should always be used unless string builders offer an advantage in terms of simpler code (see the sample program at the end of this section) or better performance. For example, if you need to concatenate a large number of strings, appending to a StringBuilder object is more efficient.
+The StringBuilder class, like the String class, has a length() method that returns the length of the character sequence in the builder.
+Unlike strings, every string builder also has a capacity, the number of character spaces that have been allocated. The capacity, which is returned by the capacity() method, is always greater than or equal to the length (usually greater than) and will automatically expand as necessary to accommodate additions to the string builder.
+For example, the following code
+will produce a string builder with a length of 9 and a capacity of 16:
+The StringBuilder class has some methods related to length and capacity that the String class does not have:
+A number of operations (for example, append(), insert(), or setLength()) can increase the length of the character sequence in the string builder so that the resultant length() would be greater than the current capacity(). When this happens, the capacity is automatically increased.
+The principal operations on a StringBuilder that are not available in String are the append() and insert() methods, which are overloaded so as to accept data of any type. Each converts its argument to a string and then appends or inserts the characters of that string to the character sequence in the string builder. The append method always adds these characters at the end of the existing character sequence, while the insert method adds the characters at a specified point.
+Here are a number of the methods of the StringBuilder class.
+The StringDemo program that was listed in the section titled "Strings" is an example of a program that would be more efficient if a StringBuilder were used instead of a String.
+StringDemo reversed a palindrome. Here, once again, is its listing:
+Running the program produces this output:
+To accomplish the string reversal, the program converts the string to an array of characters (first for loop), reverses the array into a second array (second for loop), and then converts back to a string.
+If you convert the palindrome string to a string builder, you can use the reverse() method in the StringBuilder class. It makes the code simpler and easier to read:
+Running this program produces the same output:
+Note that println() prints a string builder, as in:
+because sb.toString() is called implicitly, as it is with any other object in a println() invocation.
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

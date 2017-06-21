@@ -1,0 +1,5 @@
+The String class also allows for the modification of cases. The two methods that make this possible are toLowerCase() and toUpperCase().
+These methods are useful to do a search which is not case sensitive:
+Question 3.12: You have mail addresses in the following form: <firstName>.<lastName>@<companyName>.org
+Write the String getDisplayName(String) method that receives the mail string as parameter and returns the readable person name like this: LASTNAME Firstname
+

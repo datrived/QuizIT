@@ -1,0 +1,14 @@
+As described in Generics, Inheritance, and Subtypes, generic classes or interfaces are not related merely because there is a relationship between their types. However, you can use wildcards to create a relationship between generic classes or interfaces.
+Given the following two regular (non-generic) classes:
+It would be reasonable to write the following code:
+This example shows that inheritance of regular classes follows this rule of subtyping: class B is a subtype of class A if B extends A. This rule does not apply to generic types:
+Given that Integer is a subtype of Number, what is the relationship between List<Integer> and List<Number>?
+Although Integer is a subtype of Number, List<Integer> is not a subtype of List<Number> and, in fact, these two types are not related. The common parent of List<Number> and List<Integer> is List<?>.
+In order to create a relationship between these classes so that the code can access Number's methods through List<Integer>'s elements, use an upper bounded wildcard:
+Because Integer is a subtype of Number, and numList is a list of Number objects, a relationship now exists between intList (a list of Integer objects) and numList. The following diagram shows the relationships between several List classes declared with both upper and lower bounded wildcards.
+The Guidelines for Wildcard Use section has more information about the ramifications of using upper and lower bounded wildcards.
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

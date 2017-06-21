@@ -1,0 +1,773 @@
+{% extends 'student/studentBasepage1.html' %}
+{% load tz %}
+{% load mathfilters %}
+{% load string_operations %}
+
+
+
+{% block css_top %}
+
+{% endblock %}
+{% block javascript %}
+
+
+{% endblock %}
+
+{% block breadcrumb %}
+	<a href="#">Retry Question</a>
+{% endblock %}
+
+{% block content %}
+	
+	<div class="row-fluid sortable">
+		<div class="box span6" onTablet="span6" onDesktop="span6">
+			<div class="box-header">
+				<h2>Quiz- {{ question.datetime }}</h2>
+			</div>
+			<div class="box-content">
+				<div class="page-header">
+					<h2>
+					<small>
+						
+						{{ question.question|linebreaks }} 
+						
+					</small>
+					</h2>
+				</div>
+				<div class="row-fluid">
+					<form class="form-horizontal" id="answerForm" role="form" method="POST">{% csrf_token %}
+						<fieldset>
+						
+						<div class="control-group">
+						
+							{% if question.choiceA != "" %}
+						 	<label class="radio">
+								<input type="radio" name="optionsRadios" id="optionsRadiosA" value="A" required>
+								<span id="optionASpan">
+								&nbsp;&nbsp;&nbsp;
+								</span>
+								<i id="optionAAlert"></i>
+								
+								{{ shuffledQuestion.choiceA }}
+
+								<br>
+						  	</label>
+
+						  	<div style="clear:both"></div>
+						  	{% endif %}
+							
+						  	{% if question.choiceB != "" %}
+						 	<label class="radio">
+								<input type="radio" name="optionsRadios" id="optionsRadiosB" value="B">
+								<span id="optionBSpan">
+								&nbsp;&nbsp;&nbsp;
+								</span>
+								<i id="optionBAlert"></i>
+								
+								{{ shuffledQuestion.choiceB }}
+								<br>
+						  	</label>
+						  	<div style="clear:both"></div>
+						  	{% endif %}
+
+						  	{% if question.choiceC != "" %}
+						 	<label class="radio">
+								<input type="radio" name="optionsRadios" id="optionsRadiosC" value="C">
+								<span id="optionCSpan">
+								&nbsp;&nbsp;&nbsp;
+								</span>
+								<i id="optionCAlert"></i>
+								
+								{{ shuffledQuestion.choiceC }}
+								<br>
+						  	</label>
+						  	<div style="clear:both"></div>
+						  	{% endif %}
+
+						  	{% if question.choiceD != "" %}
+						 	<label class="radio">
+								<input type="radio" name="optionsRadios" id="optionsRadiosD" value="D">
+								<span id="optionDSpan">
+								&nbsp;&nbsp;&nbsp;
+								</span>
+								<i id="optionDAlert"></i>
+								{{ shuffledQuestion.choiceD }}
+								<br>
+						  	</label>
+						  	<div style="clear:both"></div>
+						  	{% endif %}
+
+						  	{% if question.choiceE != "" %}
+						 	<label class="radio">
+								<input type="radio" name="optionsRadios" id="optionsRadiosE" value="E">
+								<span id="optionESpan">
+								&nbsp;&nbsp;&nbsp;
+								</span>
+								<i id="optionEAlert"></i>
+								
+								{{ shuffledQuestion.choiceE }}
+								<br>
+						  	</label>
+						  	<div style="clear:both"></div>
+						  	{% endif %}
+
+						  	{% if question.choiceF != "" %}
+						 	<label class="radio">
+								<input type="radio" name="optionsRadios" id="optionsRadiosF" value="F">
+								<span id="optionFSpan">
+								&nbsp;&nbsp;&nbsp;
+								</span>
+								<i id="optionFAlert"></i>
+								
+								{{ shuffledQuestion.choiceF }}
+								<br>
+						  	</label>
+						  	<div style="clear:both"></div>
+						  	{% endif %}
+
+					  	</div>
+
+					  	<div id="quizNotification">
+					  	&nbsp;
+						</div>
+						<div class="form-actions" style="align-items: flex-start;" >
+							  <button type="submit" style = "width:120px;margin: 0px;float: left;" class="btn btn-primary submit_id" id="submitButton">Submit</button>
+							  &nbsp;
+				<!--			  <button style = "width:130px;margin: 0px;" class="btn btn-success dash_id" id="perform_button">See Performance</button>
+							   &nbsp;
+							   {% if backLocation == 1 %}
+								  	<button type="button" style = "width:120px;margin: 0px;float: left;" class="btn btn-danger" onclick="questionListCalender();">Go Back</button>
+							  {% else %}
+							  	<button type="button" style = "width:120px;margin: 0px;float: left;" class="btn btn-danger" onclick="questionListCalender();">Go Back</button>
+							 {% endif %}  -->
+						</div>
+						</fieldset>
+					</form>
+				</div>
+			</div><!--/row -->
+		</div> <!-- span 6 question box end -->
+	<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        
+        <div class="modal-body">
+          
+		  <form>
+			<div class="form-group">
+							<label for="comment">Please provide Explanation in the comment section</label>
+							<textarea id="" name="" style="height:50px;"></textarea>
+							
+			</div>
+			<button  type="submit" class="btn btn-primary" onclick = "">Submit</button>
+		  </form>		
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+  
+  
+		
+	
+
+	<div class="span6" onTablet="span6" onDesktop="span6" style="height:80%;">
+		
+		<div class="box">
+		<div class="box-header"  >
+					<h2><i class="halflings-icon white edit"></i><span class="break"></span>Post Comments</h2>
+					
+				</div>
+				<div class="box-content" >
+					<!--
+					<div style="height:250px; overflow-y:scroll;">
+					<ul class="chat" >
+						{% if studentExplanationFlag == True %}
+							{% for studentExplanation in studentExplanations %}
+								<li class="center">
+										<span class="message">
+											<span class="from"> <b> {{ first_name|title }}{{ last_name|title }} ~ </b></span>
+											<span class="time"> <b> {% timezone "America/Phoenix" %} {{ studentExplanation.postTimeStamp }} {% endtimezone %} </b> </span>
+											<span class="text">
+												{{ studentExplanation.explanationText }}
+											</span>
+									</span>	                                  
+								</li>
+							{% endfor %}
+						{% else %}
+							<b>You have not posted any explanations for this question</b>
+						{% endif %}
+						</div>  -->
+					<div class="chat-form">
+							<textarea id="explanationText" name="explanationText" style="height:50px;"></textarea>
+							<button class="btn btn-info" onclick = "postExplanation();">Submit</button> 
+						</div>	 
+				</div>
+				</div> 
+				<div class="box" data-toggle="tooltip" data-placement="top" title="Scroll to see"  > 
+				<div class="box-header" >
+					<h2><i class="halflings-icon white comment"></i><span class="break"></span>Other's Comments</h2>
+					<div class="box-icon">
+						
+					</div>
+				</div>
+				<div class="box-content"  >
+					<div id="myexpl" style="overflow-y:scroll;height: 200px;overflow: -moz-scrollbars-vertical;">
+					
+					<ul class="chat">
+					{% if studentExplanationFlag == True %}
+					{% for studentExplanation in studentExplanations %}
+							<li class="center">
+								<li class="center">
+										<span class="message">
+											<span class="from"> <b> {{ first_name|title }}{{ last_name|title }} ~ </b></span>
+											<span class="time"> <b> {% timezone "America/Phoenix" %} {{ studentExplanation.postTimeStamp }} {% endtimezone %} </b> </span>
+											<span class="text">
+												{{ studentExplanation.explanationText }}
+											</span>
+									</span>	                                  
+								</li>
+							</li>
+						{% endfor %}
+						{% if otherStudentExplanationFlag == True %}
+							{% for otherStudentExplanation in otherStudentExplanations %}
+								<li class="center">
+										<li class="center">
+									        <span class="message">
+											<span class="from"> <b> {{ otherStudentExplanation.student.first_name|anonymize:"1" }} 
+											 {{ otherStudentExplanation.student.last_name|anonymize:"2" }} 
+											~</b></span>
+											<span class="time"> <b> {% timezone "America/Phoenix" %} {{ otherStudentExplanation.postTimeStamp }} {% endtimezone %} </b> </span>
+											<span class="text">
+												{{ otherStudentExplanation.explanationText }}
+											</span>
+									        </span>                             
+							                </li>   
+
+								</li>
+							{% endfor %}
+							{% else %}
+							<b>Other users have not posted any explanations for this question</b>
+						{% endif %}	
+							
+							
+							
+						
+					{% else %}
+						<b>You have to post at least one explanation to view other's comments</b>
+					{% endif %}
+
+					</ul>
+				</div>
+				 
+				</div>
+
+				</div> <!-- box end -->
+				
+		<!--		<div class="box" > 
+				<div class="box-header" >
+					<h2><i class="halflings-icon white comment"></i><span class="break"></span>Want to Submit other explanation?</h2>
+					<div class="box-icon">
+						
+					</div>
+				</div>
+				<div class="box-content"  >
+					<button class="btn btn-primary" onclick = "otherExpl();" style="align-content: center;">Explanation</button>
+			
+				</div>
+				</div> -->
+			</div><!--/span-->
+	</div><!--/row-->
+
+{% endblock %}
+
+{% block javascript_bottom %}
+{% csrf_token %}
+<script type="text/javascript">
+	var postExplTimestamp = (new Date(0)).toISOString();
+	
+	function postExplanation(){
+
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveExplanation' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"explanationText" : $("#explanationText").val(),
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success:function()
+			{
+				postExplTimestamp = (new Date()).toISOString();
+				window.location.reload(true);
+			}	
+		});
+	}
+	
+	
+
+	// redirect to question list page on click the button
+	function questionListCalender(choice){
+		if(parseInt({{ backLocation }})==1){
+			window.location.href = "{% url 'student:studentQuestionList1' %}";
+		}
+		else{
+			window.location.href = "{% url 'student:studentTodaysQuiz1' %}";
+		}
+	}
+
+	
+	function otherExpl(){
+		$('#myModal').modal('show:2000');
+	}
+
+	$(document).ready(function(){
+		
+		var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+	//var csrftoken = Cookies.get('csrftoken');
+
+	var isFirefox = typeof InstallTrigger !== 'undefined';
+	var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+	var isIE = /*@cc_on!@*/false || !!document.documentMode;
+	var isChrome = !!window.chrome && !!window.chrome.webstore;
+	var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+	var retry_date1, retry_date2;
+	var spentTime;
+	var focus = 1;
+	var n1;
+	var scroll_date; // Last Scroll time
+	var s1;
+	
+	var postAnswerTimestamp = (new Date(0)).toISOString();
+	
+	
+	
+		var x = 0;
+		$("#myexpl").on("scroll", throttle(function(){
+			scroll_date = new Date();
+			s1 = scroll_date.toISOString();
+			x++;
+			}, 100));
+		
+		function throttle(func, wait, options) {
+  var context, args, result;
+  var timeout = null;
+  var previous = 0;
+  if (!options) options = {};
+  var later = function() {
+    previous = options.leading === false ? 0 : Date.now();
+    timeout = null;
+    result = func.apply(context, args);
+    if (!timeout) context = args = null;
+  };
+  return function() {   
+    var now = Date.now();
+    if (!previous && options.leading === false) previous = now;
+    var remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = now;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
+    return result;
+  };
+}
+
+//timestamp submission
+	
+	if(!isSafari){
+		focus = 1;
+window.onload = (function(){
+	x = 0;
+	retry_date1 = new Date();
+	//alert(retry_date1);
+	n1 = retry_date1.toISOString();
+	//window.alert(n1);
+	$("[data-toggle='tooltip']").tooltip('show');
+	setTimeout(function(){ 
+       $("[data-toggle='tooltip']").tooltip('hide');}, 2000); 
+	
+	return;
+		});
+	}
+	else{
+		
+		function myLoadHandler(evt){
+				focus = 1;
+				retry_date1 = new Date();
+				n1 = retry_date1.toISOString();
+				x = 0;
+				$("[data-toggle='tooltip']").tooltip('show');
+				setTimeout(function(){ 
+       $("[data-toggle='tooltip']").tooltip('hide');}, 2000); 
+				if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+				//window.alert("Safari...");
+				$.post("{% url 'student:saveTimestamp' %}",
+				{
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": 0,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" :(new Date(0)).toISOString(),
+				"scroll": x,
+				"commentTimestamp": (new Date(0)).toISOString(),
+				"questionPostTimestamp": (new Date(0)).toISOString(),
+				csrfmiddlewaretoken: csrftoken,
+			},
+			function()
+			{
+			});
+			return;
+}	
+	 function myUnloadHandler(evt)   //not working currently
+    {
+        
+		focus = 1;
+        //window.alert("Safari Bye...");
+		retry_date2 = new Date();
+		spentTime = retry_date2.getTime() - retry_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		
+		$.post("{% url 'student:saveTimestamp' %}",
+				{
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			function()
+			{
+			}	);
+		return;
+	}
+	
+	
+	window.close = (function(){
+		focus = 1;
+		retry_date2 = new Date();
+		spentTime = retry_date2.getTime() - retry_date1.getTime();
+		if(x==0){
+					s1 = (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},	
+				});
+		return;
+	}
+);
+window.onblur =  (function(){
+		focus = 0;
+		retry_date2 = new Date();
+		spentTime = retry_date2.getTime() - retry_date1.getTime();
+		if(x==0){
+					s1 =  (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 2,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+); 
+	}
+		 window.addEventListener("pageshow", myLoadHandler, false);
+		window.addEventListener("pagehide", myUnloadHandler, false);
+
+
+if(isChrome) {  
+window.onbeforeunload = (function(){
+		focus = 1;
+		retry_date2 = new Date();
+		spentTime = retry_date2.getTime() - retry_date1.getTime();
+		if(x==0){
+					s1 =  (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+window.close = (function(){
+		focus = 1;
+		retry_date2 = new Date();
+		spentTime = retry_date2.getTime() - retry_date1.getTime();
+		if(x==0){
+					s1 =  (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+window.onblur =  (function(){
+		focus = 0;
+		retry_date2 = new Date();
+		spentTime = retry_date2.getTime() - retry_date1.getTime();
+		if(x==0){
+					s1 =  (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 0,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		
+		return;
+	}
+); 
+
+}
+else if(isFirefox ){
+	window.onunload = (function(){
+		focus = 1;
+		retry_date2 = new Date();
+		spentTime = retry_date2.getTime() - retry_date1.getTime();
+		if(x==0){
+					s1 =  (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+			});
+		return;
+		}
+);
+	window.close = (function(){
+		focus = 1;
+		retry_date2 = new Date();
+		spentTime = retry_date2.getTime() - retry_date1.getTime();
+		if(x==0){
+					s1 =  (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 0,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		return;
+	}
+);
+window.onblur =  (function(){
+		focus = 0;
+		retry_date2 = new Date();
+		spentTime = retry_date2.getTime() - retry_date1.getTime();
+		if(x==0){
+					s1 =  (new Date(0)).toISOString();
+				}
+		$.ajax({
+			type: "POST",
+			url: "{% url 'student:saveTimestamp' %}",
+			data: {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"activity_type": 1,
+				"timestamp" : n1,
+				"time": spentTime,
+				"blur_type": 1,
+				"browser": 1,
+				"scrollTimestamp" : s1,
+				"scroll": x,
+				"commentTimestamp": postExplTimestamp,
+				"questionPostTimestamp": postAnswerTimestamp,
+				csrfmiddlewaretoken: csrftoken,
+			},
+		});
+		
+		return;
+	}
+);
+}
+
+if(focus == 0){
+	
+window.onfocus = (function(){
+	x = 0;
+	retry_date1 = new Date();
+	focus = 1;
+});
+	
+}
+
+
+		// form submit
+		$("#answerForm").submit(function(event){
+			
+			var selectedOption = $('input[name=optionsRadios]:checked').val();
+			event.preventDefault();
+			
+			var choiceList = {{ choiceList|safe }};
+			console.log(choiceList);
+			var postData = {
+				"username" : "{{ username }}",
+				"questionid" : "{{ question.id }}",
+				"selectedOption" : selectedOption,
+				"choiceList" : choiceList,
+				"activityID" : "{{ activityID }}",
+				"csrfmiddlewaretoken" : $('input[name=csrfmiddlewaretoken]').val(),  
+			};
+
+		$.ajax({
+					type : "POST",
+	                url : "{% url 'student:questionRetryProcessing' %}",
+	                data : postData,
+	                success : function(data){
+	                	var returnedData = JSON.parse(data);
+	                	//console.log(returnedData);
+
+	                	var correctFlag = parseInt(returnedData.correctFlag);
+                		if( correctFlag == 1 ){
+                			$('#quizNotification').attr("class","alert alert-warning");
+                			$('#quizNotification').html("CORRECT ANSWER!!");
+                		} 
+                		else {
+                			$('#quizNotification').attr("class","alert alert-warning");
+                			$('#quizNotification').html("INCORRECT ANSWER!!");
+                		}
+                		$("#submitButton").prop("disabled", true);
+						//window.location.reload(true);
+						//$("[data-toggle='tooltip']").tooltip('show');
+						//window.location.href = "{% url 'student:studentQuestionList1' %}";
+						postAnswerTimestamp= (new Date()).toISOString();
+						//$('#myModal').modal('show');
+						//$('#explanationText').focus();
+	                }
+			
+			}); // end of ajax call
+		}); // end of submit button function
+/*
+$('#myModal').on('shown.bs.modal', function () {
+  $('#explanationText').focus();
+}); */
+
+
+	}); // end of document ready
+
+</script>
+{% endblock %}

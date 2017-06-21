@@ -1,0 +1,5 @@
+The foreach statement allows you to iterate through all the items in a collection, examining each item in turn while still preserving its type. The syntax for the foreach statement is:
+For an example, we'll take an array of Strings denoting days in a week and traverse through the collection, examining one item at a time.
+Notice that the loop automatically exits after the last item in the collection has been examined in the statement block.
+Although the enhanced for loop can make code much clearer, it can't be used in some common situations.
+

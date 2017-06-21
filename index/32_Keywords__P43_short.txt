@@ -1,0 +1,5 @@
+short is a keyword. It defines a 16 bit signed integer primitive type.
+Syntax:
+For example:
+See also:
+

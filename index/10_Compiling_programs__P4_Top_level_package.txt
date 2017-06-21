@@ -1,0 +1,3 @@
+A class with this package declaration
+has to be in a directory named example.
+

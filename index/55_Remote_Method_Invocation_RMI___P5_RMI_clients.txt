@@ -1,0 +1,4 @@
+Here is an example of RMI client:
+
+To do: Add some exercises like the ones in Variables
+

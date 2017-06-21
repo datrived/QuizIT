@@ -1,0 +1,6 @@
+while loops are the simplest form of loop. The while loop repeats a block of code while the specified condition is true. Here is the structure of a while loop:
+}
+The loop's condition is checked before each iteration of the loop. If the condition is false at the start of the loop, the loop will not be executed at all. The code section 3.28 sets in squareHigherThan200 the smallest integer whose square exceeds 200.
+The do-while loop is functionally similar to the while loop, except the condition is evaluated AFTER the statement executes It is useful when we try to find a data that does the job by randomly browsing an amount of data.
+} while (boolean expression1);
+

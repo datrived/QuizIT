@@ -1,0 +1,6 @@
+Whitespace in Java is used to separate the tokens in a Java source file. Whitespace is required in some places, such as between access modifiers, type names and Identifiers, and is used to improve readability elsewhere.
+Wherever whitespace is required in Java, one or more whitespace characters may be used. Wherever whitespace is optional in Java, zero or more whitespace characters may be used.
+Java whitespace consists of the
+Line separators are special whitespace characters in that they also terminate line comments, whereas normal whitespace does not.
+Other Unicode space characters, including vertical tab, are not allowed as whitespace in Java.
+

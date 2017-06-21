@@ -1,0 +1,4 @@
+The java.lang.Object.finalize() method is called exactly once before the garbage collector frees the memory for object. A class overrides finalize to perform any clean up that must be performed before an object is reclaimed. Most objects do not need to override finalize.
+There is no guarantee when the finalize method will be called, or the order in which the finalize method will be called for multiple objects. If the JVM exits without performing garbage collection, the OS may free the objects, in which case the finalize method doesn't get called.
+The finalize method should always be declared protected to prevent other classes from calling the finalize method.
+

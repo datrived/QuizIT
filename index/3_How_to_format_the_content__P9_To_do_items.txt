@@ -1,0 +1,3 @@
+If there are sections of the book that require attention at a later time, you can add a to-do note by including the following template:
+To do: To-do items for pages should be kept in their respective comment boxes.
+

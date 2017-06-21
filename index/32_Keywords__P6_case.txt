@@ -1,0 +1,4 @@
+case is a Java keyword.
+This is part of the switch statement, to find if the value passed to the switch statement matches a value followed by case.
+For example:
+

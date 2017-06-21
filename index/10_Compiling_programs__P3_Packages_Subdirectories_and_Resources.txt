@@ -1,0 +1,4 @@
+Each Java top level class belongs to a package (covered in the chapter about Packages). This may be declared in a package statement at the beginning of the file; if that is missing, the class belongs to the unnamed package.
+For compilation, the file must be in the right directory structure. A file containing a class in the unnamed package must be in the current/root directory; if the class belongs to a package, it must be in a directory with the same name as the package.
+The convention is that package names and directory names corresponding to the package consist of only lower case letters.
+

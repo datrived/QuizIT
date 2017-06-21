@@ -1,0 +1,8 @@
+An else-if block may be used when multiple conditions need to be checked. else-if statements come after the if block, but before the else block. The structure of an if block is as follows:
+} else if (boolean expression2) {
+} else {
+}
+Here is an example to illustrate:
+Keep in mind that only a single block will execute, and it will be the first true condition.
+All the conditions are evaluated when if is reached, no matter what the result of the condition is, after the execution of the if block:
+

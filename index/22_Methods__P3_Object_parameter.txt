@@ -1,0 +1,8 @@
+The object references are passed by value. It means that:
+You must understand the difference between the reference of an object and the object itself. A object reference is the link between a variable name and an instance of object:
+An object reference is a pointer, an address to the object instance.
+The object itself is the value of its attributes inside the object instance:
+Take a look at the example above:
+The name has changed because the method has changed the object itself and not the reference. Now take a look at the other example:
+The name has not changed because the method has changed the reference and not the object itself. The behavior is the same as if the method was in-lined and the parameters were assigned to new variable names:
+

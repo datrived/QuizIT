@@ -1,0 +1,2 @@
+There are two constants in the Math class that are fairly accurate approximations of irrational mathematical numbers.
+

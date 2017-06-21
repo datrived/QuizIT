@@ -1,0 +1,5 @@
+native2ascii is an important, though underappreciated, tool for writing properties files — files containing configuration data — or resource bundles — files containing language translations of text.
+Such files can contain only ASCII and Latin-1 characters, but international programmers need a full range of character sets. Text using these characters can appear in properties files and resource bundles only if the non-ASCII and non-Latin-^1 characters are converted into Unicode escape sequences (\uXXXX notation).
+The task of writing such escape sequences is handled by native2ascii. You can write the international text in an editor using the appropriate character encoding, then use native2ascii to generate the necessary ASCII text with embedded Unicode escape sequences. Despite the name, native2ascii can also convert from ASCII to native, so it is useful for converting an existing properties file or resource bundle back to some other encoding.
+native2ascii makes most sense when integrated into a build system to automate the conversion.
+

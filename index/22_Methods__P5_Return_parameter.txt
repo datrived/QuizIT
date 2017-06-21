@@ -1,0 +1,8 @@
+So as we can see, a method may or may not return a value. If the method does not return a value we use the void Java keyword.
+Same as the parameter passing, the method can return a primitive type or an object reference. So a method can return only one value. What if you want to return more than one value from a method. You can always pass in an object reference to the method, and let the method modify the object properties. The modified values can be considered as an output value from the method. However you can also create an Object array inside the method, assign the return values and return the array to the caller. You could have a problem however, if you want to mix primitive data types and object references as the output values from the method.
+There is a better approach. Defines special return object with the needed return values. Create that object inside the method, assign the values and return the reference to this object. This special object is "bound" to this method and used only for returning values, so do not use a public class. The best way is to use a nested class, see example below:
+In the above example the getPersonInfoById method returns an object reference that contains both values of the name and the age. See below how you may use that object:
+Question 3.10: Consider the following code:
+The code above will return a compiler error. Why?
+The method is supposed to return a int but at line 4, it returns c, which is a String.
+

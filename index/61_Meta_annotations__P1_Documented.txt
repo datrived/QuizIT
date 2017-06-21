@@ -1,0 +1,4 @@
+If a member is annotated with a type itself marked as @Documented, then that member will be documented as annotating that type.
+In the documentation for the Example class, such as the JavaDoc, Example will be shown as annotated with @NotSecret, but not @Secret.
+To do: Add the render of a Javadoc.
+

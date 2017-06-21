@@ -1,0 +1,11 @@
+When working with numbers, most of the time you use the primitive types in your code. For example:
+There are, however, reasons to use objects in place of primitives, and the Java platform provides wrapper classes for each of the primitive data types. These classes "wrap" the primitive in an object. Often, the wrapping is done by the compilerif you use a primitive where an object is expected, the compiler boxes the primitive in its wrapper class for you. Similarly, if you use a number object when a primitive is expected, the compiler unboxes the object for you. For more information, see Autoboxing and Unboxing
+All of the numeric wrapper classes are subclasses of the abstract class Number:
+There are three reasons that you might use a Number object rather than a primitive:
+The following table lists the instance methods that all the subclasses of the Number class implement.
+Each Number class contains other methods that are useful for converting numbers to and from strings and for converting between number systems. The following table lists these methods in the Integer class. Methods for the other Number subclasses are similar:
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

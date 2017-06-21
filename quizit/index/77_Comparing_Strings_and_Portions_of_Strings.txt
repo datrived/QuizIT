@@ -1,0 +1,12 @@
+The String class has a number of methods for comparing strings and portions of strings. The following table lists these methods.
+Region is of length len and begins at the index toffset for this string and ooffset for the other string.
+Region is of length len and begins at the index toffset for this string and ooffset for the other string.
+The boolean argument indicates whether case should be ignored; if true, case is ignored when comparing characters.
+The following program, RegionMatchesDemo, uses the regionMatches method to search for a string within another string:
+The output from this program is Eggs.
+The program steps through the string referred to by searchMe one character at a time. For each character, the program calls the regionMatches method to determine whether the substring beginning with the current character matches the string the program is looking for.
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

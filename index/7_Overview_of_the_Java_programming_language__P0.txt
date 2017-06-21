@@ -1,0 +1,5 @@
+
+The new features and upgrades included into Java changed the face of programming environment and gave a new definition to Object Oriented Programming (OOP in short). But unlike its predecessors, Java needed to be bundled with standard functionality and be independent of the host platform.
+The primary goals in the creation of the Java language:
+The Java language introduces some new features that did not exist in other languages like C and C++.
+

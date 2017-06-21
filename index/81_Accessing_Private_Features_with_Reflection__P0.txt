@@ -1,0 +1,5 @@
+
+All features of a class can be obtained via reflection, including access to private methods & variables. But not always see [1]. Let us look at the following example:
+Although the field and method are marked private, the following class shows that it is possible to access the private features of a class:
+To do: We need to add some explanation of what is going on here.
+

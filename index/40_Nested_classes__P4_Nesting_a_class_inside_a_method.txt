@@ -1,0 +1,3 @@
+These inner classes, also called local classes, cannot have access modifiers, like local variables, since the class is 'private' to the method. The inner class can be only abstract or final.
+In addition to instance variables of the enclosing class, local classes can also access local variables of the enclosing method, but only ones that are declared final. This is because the local class instance might outlive the invocation of the method, and so needs its own copy of the variable. To avoid problems with having two different copies of a mutable variable with the same name in the same scope, it is required to be final, so it cannot be changed.
+

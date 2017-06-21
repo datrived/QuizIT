@@ -1,0 +1,9 @@
+The main benefit of the layouts is that you can combine them one into another and you can do that with a panel. A panel is a component that has other components inside. A panel can then be added to the top component (frame or applet) or to another panel and be placed itself as defined by layout and constraints of this parent component. It has its own layout and is normally used to place a group of related components like buttons, for instance:
+Question 9.5: We want to create a basic FTP (File Transfer Protocol) software which looks like this:
+On the top, it should display the name of the software. Under the name, it should display tool buttons that are displayed from the left to the right and the sequence of buttons is wrapped if it reaches the right border. Under the buttons, it should display two lists of files. The widths of these two lists should be the same and they should use all the width of the application. Under these two lists, it should display a status bar.
+Create this display on an applet.
+First, we have to analyze the display. We have four separate areas of components:
+So we have to first separate these areas and then we will split these areas into components.
+We use a grid layout to display the folders to have the same width between the two components. We can't use a grid layout to separate the name, the buttons, the folders and the status bar as these areas have not the same height. The buttons must be at the center of the border layout as the number of row of buttons would be badly calculated and the last rows of buttons would not appear.
+
+

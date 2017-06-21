@@ -1,0 +1,5 @@
+class is a Java keyword which begins the declaration and definition of a class.
+The general syntax of a class declaration, using Extended Backus-Naur Form, is
+The extends word is optional. If omitted, the class extends the Object class, as all Java classes inherit from it.
+See also:
+

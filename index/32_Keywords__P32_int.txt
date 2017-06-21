@@ -1,0 +1,6 @@
+int is a keyword which designates the 32 bit signed integer primitive type.
+The java.lang.Integer class is the nominal wrapper class when you need to store an int value but an object reference is required.
+Syntax:
+For example:
+See also:
+

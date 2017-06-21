@@ -1,0 +1,9 @@
+This is where things get interesting: the event source class. This is the interesting place because this is where we must put code to read the number stream, code to send events to all the listeners and code to manage listeners (add and remove them and keep track of them).
+Let's start by thinking about keeping track of listeners. Normally this is a tricky business, since you have to take all sorts of multithreading concerns into account. But we're being simple in this example, so let's just stick with a simple java.util.Set of listeners. Which we can initialize in the constructor:
+That choice makes it really easy to implement adding and removing of listeners:
+We won't actually use the remove method in this example — but recall that the Model says it must be present.
+Another advantage of this simple choice is that notification of all the listeners is easy as well. We can just assume any listeners will be in the set and iterate over them. And since the notification methods are synchronous (rule of the model) we can just call them directly:
+Note that we've made some assumptions here. For starters, we've assumed that we'll get the Double value d from somewhere. Also, we've assumed that no listener will ever care about the number value in the end-of-stream notification and have passed in the fixed value 0 for that event.
+Finally we must deal with reading the number stream. We'll use the Console class for that and just keep on reading numbers until there are no more:
+Note how we've hooked the number-reading loop into the event handling mechanism by calling the notify methods? The entire class looks like this:
+

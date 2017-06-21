@@ -1,0 +1,15 @@
+Sometimes type erasure causes a situation that you may not have anticipated. The following example shows how this can occur. The example (described in Bridge Methods) shows how a compiler sometimes creates a synthetic method, called a bridge method, as part of the type erasure process.
+Given the following two classes:
+Consider the following code:
+After type erasure, this code becomes:
+Here is what happens as the code is executed:
+When compiling a class or interface that extends a parameterized class or implements a parameterized interface, the compiler may need to create a synthetic method, called a bridge method, as part of the type erasure process. You normally don't need to worry about bridge methods, but you might be puzzled if one appears in a stack trace.
+After type erasure, the Node and MyNode classes become:
+After type erasure, the method signatures do not match. The Node method becomes setData(Object) and the MyNode method becomes setData(Integer). Therefore, the MyNode setData method does not override the Node setData method.
+To solve this problem and preserve the polymorphism of generic types after type erasure, a Java compiler generates a bridge method to ensure that subtyping works as expected. For the MyNode class, the compiler generates the following bridge method for setData:
+As you can see, the bridge method, which has the same method signature as the Node class's setData method after type erasure, delegates to the original setData method.
+Your use of this page and all the material on pages under "The Java Tutorials" banner is subject to these legal notices.
+Copyright © 1995, 2015 Oracle and/or its affiliates. All rights reserved.
+Problems with the examples? Try Compiling and Running the Examples: FAQs.
+Complaints? Compliments? Suggestions? Give us your feedback.
+

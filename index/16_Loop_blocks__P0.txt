@@ -1,0 +1,7 @@
+
+Loops are a handy tool that enables programmers to do repetitive tasks with minimal effort. Say we want a program that can count from 1 to 10, we could write the following program.
+The task will be completed just fine, the numbers 1 to 10 will be printed in the output, but there are a few problems with this solution:
+Using loops we can solve all these problems. Once you get you head around them they will be invaluable to solving many problems in programming.
+Open up your editing program and create a new file saved as Loop.java. Now type or copy the following code:
+If we run the program, the same result is produced, but looking at the code, we immediately see the advantages of loops. Instead of executing 10 different lines of code, line 5 executes ten times. 10 lines of code have been reduced to just 4. Furthermore, we may change the number 10 to any number we like. Try it yourself, replace the 10 with your own number.
+

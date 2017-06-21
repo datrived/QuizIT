@@ -1,0 +1,6 @@
+The java.lang.Object.hashCode() method returns an integer (int). This integer can be used to distinguish objects although not completely. It quickly separates most of the objects and those with the same hash code are separated later in another way. It is used by the classes that provide associative arrays, for instance, those that implement the java.util.Map interface . They use the hash code to store the object in the associative array. A good hashCode implementation will return a hash code:
+The second point means that two different objects can have the same hash code so two objects with the same hash code are not necessarily the same!
+Since associative arrays depend on both the equals and hashCode methods, there is an important contract between these two methods that must be maintained if the objects are to be inserted into a Map:
+In order to maintain this contract, a class that overrides the equals method must also override the hashCode method, and vice versa, so that hashCode is based on the same properties (or a subset of the properties) as equals.
+A further contract that the map has with the object is that the results of the hashCode and equals methods will not change once the object has been inserted into the map. For this reason, it is generally a good practice to base the hash function on immutable properties of the object.
+

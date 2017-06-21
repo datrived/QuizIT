@@ -1,0 +1,4 @@
+The for loop is a specialized while loop whose syntax is designed for easy iteration through a sequence of numbers. Example:
+The program prints the numbers 0 to 99 and their squares.
+The same statement in a while loop:
+

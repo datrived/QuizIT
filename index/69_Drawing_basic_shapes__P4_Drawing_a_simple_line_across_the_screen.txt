@@ -1,0 +1,3 @@
+Now, we already know that a line is a connection of two discreet points atop a canvas. So, if one point is at and the other is at , drawing a line would require you to write a syntax like code below. For the sake of brevity, we will skim out the rest of the method unused in the example.
+In the above example, a simple method is used to define precisely where to place the line on the Cartesian scale of the canvas. The drawLine(int,int,int,int) asks you to put four arguments, appearing in order, the x1 coordinate, the y1 coordinate, the x2 coordinate and the y2 coordinate. Running the program will show a simple black line diagonally going across the canvas.
+

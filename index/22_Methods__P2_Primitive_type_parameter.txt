@@ -1,0 +1,3 @@
+The primitive types are passed in by value. It means that as soon as the primitive type is passed in, there is no more link between the value inside the method and the source variable:
+As you can see in code section 3.70, the modifyValue() method has not modified the value of i.
+

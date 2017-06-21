@@ -1,0 +1,5 @@
+In the Java programming language, there are four kinds of variables.
+In the code listing 3.9, are examples of all four kinds of variables.
+Question 3.5: Consider the following code:
+In the example above, we created five variables: a, b, c, d and e. All these variables have the same data type int (integer). However, can you tell what kind of variable each one is?
+

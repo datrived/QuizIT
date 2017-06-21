@@ -1,0 +1,2 @@
+Javadoc comments are a special case of slash-star comments.
+
